@@ -5,7 +5,7 @@ namespace APICRM.Models
     public class CreditInformation
     {
 
-        [JsonProperty("Saldo")]
+        [JsonProperty("SaldoVencido")]
         public decimal Balance { get; set; }
 
         [JsonProperty("Limite")]

@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\models\\creditinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:models\\creditinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\models\\creditinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:models\\creditinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\logic\\methods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:logic\\methods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\models\\conflic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:models\\conflic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\models\\response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -25,14 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\models\\userlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:models\\userlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\models\\conflic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:models\\conflic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\logic\\methods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:logic\\methods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,20 +58,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAACcAAAAAAAAAAAAAAC4AAAAXAAAA",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAAAC4AAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-19T16:22:30.762Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-19T16:22:30.762Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "APIController.cs",
               "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Controllers\\APIController.cs",
               "RelativeDocumentMoniker": "Controllers\\APIController.cs",
@@ -84,20 +83,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "Methods.cs",
               "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Logic\\Methods.cs",
               "RelativeDocumentMoniker": "Logic\\Methods.cs",
               "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Logic\\Methods.cs",
               "RelativeToolTip": "Logic\\Methods.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAuwEoAAAA0AAAA",
+              "ViewState": "AQIAAKYAAAAAAAAAAAAAwLYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-19T16:52:10.633Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "Conflic.cs",
               "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\Conflic.cs",
               "RelativeDocumentMoniker": "Models\\Conflic.cs",
@@ -109,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "UserLogin.cs",
               "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\UserLogin.cs",
               "RelativeDocumentMoniker": "Models\\UserLogin.cs",
@@ -122,7 +121,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Response.cs",
               "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\Response.cs",
               "RelativeDocumentMoniker": "Models\\Response.cs",
@@ -134,27 +133,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Client.cs",
               "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\Client.cs",
               "RelativeDocumentMoniker": "Models\\Client.cs",
               "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\Client.cs",
               "RelativeToolTip": "Models\\Client.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAtAAAA",
+              "ViewState": "AQIAAA4AAAAAAAAAAIA8wBoAAAAbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-19T16:26:55.012Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "CreditInformation.cs",
               "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\CreditInformation.cs",
               "RelativeDocumentMoniker": "Models\\CreditInformation.cs",
               "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\CreditInformation.cs",
               "RelativeToolTip": "Models\\CreditInformation.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAIAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-19T16:28:25.69Z"
+              "WhenOpened": "2024-12-19T16:28:25.69Z",
+              "EditorCaption": ""
             }
           ]
         }

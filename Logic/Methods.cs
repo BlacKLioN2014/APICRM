@@ -178,7 +178,7 @@ namespace APICRM.Logic
                                 CardFName = reader.IsDBNull(2) ? "No data" : reader.GetString(2),
                                 Phone1 = reader.IsDBNull(3) ? "No data" : reader.GetString(3),
                                 E_Mail = reader.IsDBNull(4) ? "No data" : reader.GetString(4),
-                                SlpCode = reader.IsDBNull(5) ? "No data" : reader.GetString(5),
+                                //SlpCode = reader.IsDBNull(5) ? "No data" : reader.GetString(5),
                             };
 
                             var CreditInformation = new CreditInformation()
