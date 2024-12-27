@@ -7,11 +7,11 @@ namespace APICRM.Models
     {
 
         [Required]
-        [JsonProperty("Codigo")]
+        [JsonProperty("Código")]
         public int code { get; set; }
 
         [Required]
-        [JsonProperty("Descripcion")]
+        [JsonProperty("Descripción")]
         public string? Description { get; set; }
 
     }

@@ -2,9 +2,8 @@
 
 namespace APICRM.Models
 {
-    public class Client
+    public class ClientTwo
     {
-
         [JsonProperty("CodigoSAP")]
         public string? CardCode { get; set; }
 
@@ -20,11 +19,10 @@ namespace APICRM.Models
         [JsonProperty("Correo")]
         public string? E_Mail { get; set; }
 
-        //[JsonProperty("CodigoEmpleado")]
-        //public string? SlpCode { get; set; }
+        [JsonProperty("Contado")]
+        public string? counted { get; set; }
 
-        [JsonProperty("InformacionCrediticia")]
-        public CreditInformation? CreditInformation { get; set; }
-
+        [JsonProperty("Crédito")]
+        public string? credit { get; set; }
     }
 }

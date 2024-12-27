@@ -31,7 +31,17 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "API Integracion Fresh",
+        Version = "v1"
+    });
+
+    // Habilitar soporte para anotaciones (como [SwaggerOperation])
+    c.EnableAnnotations();
+});
 
 var app = builder.Build();
 

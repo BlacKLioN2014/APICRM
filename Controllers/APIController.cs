@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Swashbuckle.AspNetCore.Annotations;
-using APICRM.Models;
 using APICRM.Logic;
 
 namespace APICRM.Controllers
@@ -14,12 +13,15 @@ namespace APICRM.Controllers
     public class APIController : ControllerBase
     {
 
+
         private readonly Methods _methods;
+
 
         public APIController(Methods methods)
         {
             _methods = methods;
         }
+
 
         [HttpGet]
         ///[HttpGet("GetToken/{usuario},{contraseña}", Name = "GetToken")]
@@ -28,7 +30,6 @@ namespace APICRM.Controllers
         Description = "Este servicio es responsable de generar un token de autenticación utilizando las credenciales del usuario, específicamente su nombre de usuario y contraseña.")]
         [ResponseCache(Duration = 10)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("GetToken")]
         public IActionResult  GetToken([FromQuery] UserLogin Login)
@@ -93,17 +94,16 @@ namespace APICRM.Controllers
 
         }
 
+
         [HttpGet]
         [SwaggerOperation(
-        Summary = "Obtener la lista de clientes desde SAP",
+        Summary = "Obtener listado de clientes",
         Description = "Este servicio se encarga de recuperar todos los clientes disponibles en la base de datos de SAP. Para su funcionamiento, es necesario contar con un token de autenticación.")]
         [ResponseCache(Duration = 10)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //[Authorization]
-        //[CustomHeaderRequired] // Este endpoint requiere el encabezado
         [Route("GetClients")]
         public IActionResult GetAllClients()
         {
@@ -121,7 +121,7 @@ namespace APICRM.Controllers
                     if (userLogin.User.Trim() == _methods.UserApi && userLogin.Password.Trim() == _methods.PasswordApi.Trim())
                     {
 
-                        var MyClients = _methods.GetClients("NO");
+                        var MyClients = _methods.GetClients();
 
                         if (MyClients.Result.Count < 1)
                         {
@@ -129,7 +129,7 @@ namespace APICRM.Controllers
                             Conflic conflic = new Conflic()
                             {
                                 code = 404,
-                                Description = "Error al obtener el listado de clientes. Intente nuevamente más tarde."
+                                Description = "No se encontraron datos de clientes. Por favor, intente nuevamente más tarde."
                             };
 
                             Response<Conflic> response = new Response<Conflic>()
@@ -233,7 +233,305 @@ namespace APICRM.Controllers
                     answer = conflic
                 };
 
-                return StatusCode(500, "Ha ocurrido un error interno. Por favor, inténtelo de nuevo más tarde.)");
+                return StatusCode(500, response);
+            }
+
+        }
+
+
+        [HttpGet]
+        [SwaggerOperation(
+        Summary = "Obtener datos de cliente",
+        Description = "Este servicio permite recuperar algunos datos de un cliente mediante la búsqueda de un correo electrónico en la base de datos de SAP. Para su correcto funcionamiento, es imprescindible disponer de un token de autenticación válido.")]
+        [ResponseCache(Duration = 10)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route("GetClient")]
+        public IActionResult GetInfoClient([FromQuery] FindEmail mail) 
+        {
+            string Authorization = Request.Headers["Authorization"];
+
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (!string.IsNullOrEmpty(Authorization))
+                {
+                    Authorization = Authorization.Replace("Bearer ", "");
+
+                    UserLogin userLogin = _methods.desifrarToken(Authorization.Trim());
+
+                    if (userLogin.User.Trim() == _methods.UserApi && userLogin.Password.Trim() == _methods.PasswordApi.Trim())
+                    {
+
+                        var MyClients = _methods.GetClient(mail.Email);
+
+                        if (MyClients.Result.Count < 1)
+                        {
+
+                            Conflic conflic = new Conflic()
+                            {
+                                code = 404,
+                                Description = "No se encontraron los datos del cliente. Por favor, intente nuevamente más tarde."
+                            };
+
+                            Response<Conflic> response = new Response<Conflic>()
+                            {
+                                success = false,
+                                answer = conflic
+                            };
+
+                            return NotFound(response);
+
+                        }
+                        else
+                        {
+                            Response<List<ClientTwo>> response = new Response<List<ClientTwo>>()
+                            {
+                                success = true,
+                                answer = MyClients.Result
+                            };
+
+                            return Ok(response);
+
+                        }
+                    }
+                    #region Lista de clientes en base de pruebas
+                    //else if (ValidTokenTest == Authorization)
+                    //{
+                    //    List<Producto> a = Data.obtenerProductos("NO");
+
+                    //    if (a.Count < 1)
+                    //    {
+                    //        Response<Conflicto> response = new Response<Conflicto>();
+                    //        response.Exito = false;
+                    //        response.Respuesta.Descripcion = "Error al obtener listado de productos";
+                    //        response.Respuesta.Codigo = 404;
+                    //        return NotFound(response);
+                    //    }
+                    //    else
+                    //    {
+                    //        Response<List<Producto>> response = new Response<List<Producto>>()
+                    //        {
+                    //            Exito = true,
+                    //            Respuesta = a
+                    //        };
+
+                    //        // Calcular el tamaño de la respuesta en bytes
+                    //        //string jsonResponse = JsonSerializer.Serialize(response);
+                    //        //long responseSize = System.Text.Encoding.UTF8.GetByteCount(jsonResponse);
+
+                    //        // Opcional: Puedes registrar el tamaño o devolverlo en el encabezado
+                    //        //Response.Headers.Add("X-Response-Size", responseSize.ToString());
+
+                    //        return Ok(response);
+                    //    }
+                    //}
+                    #endregion
+                    else
+                    {
+                        Conflic conflic = new Conflic()
+                        {
+                            code = 400,
+                            Description = "Token no válido. Por favor, revíselo e inténtelo de nuevo."
+                        };
+
+                        Response<Conflic> response = new Response<Conflic>()
+                        {
+                            success = false,
+                            answer = conflic
+                        };
+
+                        return BadRequest(response);
+                    }
+                }
+                else
+                {
+                    Conflic conflic = new Conflic()
+                    {
+                        code = 400,
+                        Description = "Es necesario incluir un token válido para continuar."
+                    };
+
+                    Response<Conflic> response = new Response<Conflic>()
+                    {
+                        success = false,
+                        answer = conflic
+                    };
+
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception x)
+            {
+                Conflic conflic = new Conflic()
+                {
+                    code = 500,
+                    Description = "Ha ocurrido un error interno. Por favor, inténtelo de nuevo más tarde."
+                };
+
+                Response<Conflic> response = new Response<Conflic>()
+                {
+                    success = false,
+                    answer = conflic
+                };
+
+                return StatusCode(500, response);
+            }
+
+        }
+
+
+        [HttpGet]
+        [SwaggerOperation(
+        Summary = "Obtener datos de factura",
+        Description = "Este servicio permite recuperar algunos datos de una factura mediante la búsqueda por folio en la base de datos de SAP. Para su correcto funcionamiento, es imprescindible disponer de un token de autenticación válido.")]
+        [ResponseCache(Duration = 10)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route("GetInvoice")]
+        public IActionResult GetInfoInvoice([FromQuery] FindInvoice invoice)
+        {
+            string Authorization = Request.Headers["Authorization"];
+
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (!string.IsNullOrEmpty(Authorization))
+                {
+                    Authorization = Authorization.Replace("Bearer ", "");
+
+                    UserLogin userLogin = _methods.desifrarToken(Authorization.Trim());
+
+                    if (userLogin.User.Trim() == _methods.UserApi && userLogin.Password.Trim() == _methods.PasswordApi.Trim())
+                    {
+
+                        var MyClients = _methods.GetInvoice(invoice.DocNum);
+
+                        if (MyClients.Result.CardCode == null || MyClients.Result == null)
+                        {
+
+                            Conflic conflic = new Conflic()
+                            {
+                                code = 404,
+                                Description = "No se encontraron los datos de la factura. Por favor, intente nuevamente más tarde."
+                            };
+
+                            Response<Conflic> response = new Response<Conflic>()
+                            {
+                                success = false,
+                                answer = conflic
+                            };
+
+                            return NotFound(response);
+
+                        }
+                        else
+                        {
+                            Response<Invoice> response = new Response<Invoice>()
+                            {
+                                success = true,
+                                answer = MyClients.Result
+                            };
+
+                            return Ok(response);
+
+                        }
+                    }
+                    #region Lista de clientes en base de pruebas
+                    //else if (ValidTokenTest == Authorization)
+                    //{
+                    //    List<Producto> a = Data.obtenerProductos("NO");
+
+                    //    if (a.Count < 1)
+                    //    {
+                    //        Response<Conflicto> response = new Response<Conflicto>();
+                    //        response.Exito = false;
+                    //        response.Respuesta.Descripcion = "Error al obtener listado de productos";
+                    //        response.Respuesta.Codigo = 404;
+                    //        return NotFound(response);
+                    //    }
+                    //    else
+                    //    {
+                    //        Response<List<Producto>> response = new Response<List<Producto>>()
+                    //        {
+                    //            Exito = true,
+                    //            Respuesta = a
+                    //        };
+
+                    //        // Calcular el tamaño de la respuesta en bytes
+                    //        //string jsonResponse = JsonSerializer.Serialize(response);
+                    //        //long responseSize = System.Text.Encoding.UTF8.GetByteCount(jsonResponse);
+
+                    //        // Opcional: Puedes registrar el tamaño o devolverlo en el encabezado
+                    //        //Response.Headers.Add("X-Response-Size", responseSize.ToString());
+
+                    //        return Ok(response);
+                    //    }
+                    //}
+                    #endregion
+                    else
+                    {
+                        Conflic conflic = new Conflic()
+                        {
+                            code = 400,
+                            Description = "Token no válido. Por favor, revíselo e inténtelo de nuevo."
+                        };
+
+                        Response<Conflic> response = new Response<Conflic>()
+                        {
+                            success = false,
+                            answer = conflic
+                        };
+
+                        return BadRequest(response);
+                    }
+                }
+                else
+                {
+                    Conflic conflic = new Conflic()
+                    {
+                        code = 400,
+                        Description = "Es necesario incluir un token válido para continuar."
+                    };
+
+                    Response<Conflic> response = new Response<Conflic>()
+                    {
+                        success = false,
+                        answer = conflic
+                    };
+
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception x)
+            {
+                Conflic conflic = new Conflic()
+                {
+                    code = 500,
+                    Description = "Ha ocurrido un error interno. Por favor, inténtelo de nuevo más tarde."
+                };
+
+                Response<Conflic> response = new Response<Conflic>()
+                {
+                    success = false,
+                    answer = conflic
+                };
+
+                return StatusCode(500, response);
             }
 
         }

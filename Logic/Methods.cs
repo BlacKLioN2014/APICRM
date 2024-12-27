@@ -17,6 +17,7 @@ namespace APICRM.Logic
         private readonly string HanaConec = string.Empty;
         private readonly string DBYes = string.Empty;
         private readonly string DBNo = string.Empty;
+        private readonly string productive = string.Empty;
 
         IConfiguration _config;
 
@@ -31,7 +32,7 @@ namespace APICRM.Logic
             HanaConec = _config.GetValue<string>("ApiSettings:HanaConec");
             DBYes = _config.GetValue<string>("ApiSettings:DBYes");
             DBNo = _config.GetValue<string>("ApiSettings:DBNo");
-
+            productive = _config.GetValue<string>("ApiSettings:Productive");
         }
 
         public  string generarToKen(UserLogin UserLogin)
@@ -91,11 +92,9 @@ namespace APICRM.Logic
             };
         }
 
-        public async Task<List<Client>>  GetClients(string productive)
+        public async Task<List<Client>>  GetClients()
         {
             List<Client> Lista = new List<Client>();
-
-            string Universal = string.Empty;
 
             string DB = string.Empty;
 
@@ -205,6 +204,186 @@ namespace APICRM.Logic
 
             }
             return Lista;
+
+        }
+
+        public async Task<List<ClientTwo>> GetClient(string email)
+        {
+            List<ClientTwo> Lista = new List<ClientTwo>();
+
+            string DB = string.Empty;
+
+            string StrSql = string.Empty;
+
+            try
+            {
+
+                using (var Con = new HanaConnection(HanaConec))
+                {
+                    await Con.OpenAsync();
+                    DB = productive == "YES" ? DBYes : DBNo;
+
+                    StrSql = $@"
+                                SELECT
+                                    T0.""CardCode"",
+                                    T0.""CardName"",
+                                    T0.""CardFName"",
+                                    T0.""Phone1"",
+                                    T0.""E_Mail"",
+                                    CASE WHEN T0.""QryGroup1"" = 'Y' THEN 'SI' ELSE 'NO' END AS ""Contado"", 
+                                    CASE WHEN T0.""QryGroup2"" = 'Y' THEN 'SI' ELSE 'NO' END AS ""Credito""
+
+                                FROM  
+                                    {DB}.OCRD T0
+
+                                WHERE  
+                                    T0.""validFor"" = 'Y'
+                                    AND T0.""CardType"" = 'C' 
+                                    AND T0.""E_Mail"" = '{email}' 
+
+                                ORDER BY 
+                                    T0.""CardCode"" ASC
+";
+
+                    using (var cmd = new HanaCommand(StrSql, Con))
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            var client = new ClientTwo()
+                            {
+                                CardCode = reader.GetString(0),
+                                CardName = reader.IsDBNull(1) ? "No data" : reader.GetString(1),
+                                CardFName = reader.IsDBNull(2) ? "No data" : reader.GetString(2),
+                                Phone1 = reader.IsDBNull(3) ? "No data" : reader.GetString(3),
+                                E_Mail = reader.IsDBNull(4) ? "No data" : reader.GetString(4),
+                                counted = reader.GetString(5),
+                                credit = reader.GetString(6),
+                            };
+
+                            Lista.Add(client);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = "Error. Al obtener cliente. " + ex.Message.ToString();
+                DateTime date = DateTime.Now;
+                string fechaFormateada = date.ToString("yyyyMMdd");
+
+                return new List<ClientTwo>();
+
+            }
+            return Lista;
+
+        }
+
+        public async Task<Invoice> GetInvoice(int DocNum)
+        {
+
+            var client = new Invoice();
+
+            string DB = string.Empty;
+
+            string StrSql = string.Empty;
+
+            try
+            {
+
+                using (var Con = new HanaConnection(HanaConec))
+                {
+                    await Con.OpenAsync();
+                    DB = productive == "YES" ? DBYes : DBNo;
+
+                    StrSql = $@"
+                                SELECT
+	                                T0.""CardCode"",
+	                                T0.""CardName"",
+	                                T0.""DocDate"",
+	                                CASE 
+		                                WHEN T0.""U_Sucursal"" = '01' THEN 'Guadalajara' 
+		                                WHEN T0.""U_Sucursal"" = '02' THEN 'CDMX'
+		                                WHEN T0.""U_Sucursal"" = '03' THEN 'Monterrey'
+		                                ELSE 'Salto' 
+	                                END AS ""Almacen""
+	
+                                FROM
+	                                {DB}.OINV T0
+	
+                                WHERE
+	                                T0.""DocNum"" = '{DocNum}'";
+
+                    using (var cmd = new HanaCommand(StrSql, Con))
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            client = new Invoice()
+                            {
+                                CardCode = reader.GetString(0),
+                                CardName = reader.IsDBNull(1) ? "No data" : reader.GetString(1),
+                                DocDate = reader.GetString(2),
+                                U_Sucursal = reader.GetString(3)
+                            };
+
+                        }
+                    }
+
+                    var Items = new List<Item>();
+
+                    StrSql = $@"
+                                SELECT
+	                                T1.""ItemCode"",
+	                                T1.""Dscription"",
+	                                T1.""CodeBars"",
+	                                T1.""Quantity"",
+	                                T1.""PriceBefDi"",
+	                                T1.""DiscPrcnt""
+	
+                                FROM
+	                                {DB}.OINV T0  
+	                                INNER JOIN {DB}.INV1 T1 ON T0.""DocEntry"" = T1.""DocEntry""
+	
+                                WHERE
+	                                T0.""DocNum"" = '{DocNum}'";
+
+                    using (var cmd = new HanaCommand(StrSql, Con))
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            var Item = new Item()
+                            {
+                                ItemCode = reader.GetString(0),
+                                Dscription = reader.GetString(1),
+                                CodeBars = reader.IsDBNull(2) ? "No data" : reader.GetString(2),
+                                Quantity = reader.GetString(3),
+                                PriceBefDi = reader.GetString(4),
+                                DiscPrcnt = reader.GetString(5)
+                            };
+
+                            Items.Add(Item);
+
+                        }
+                    }
+                    client.Items = Items;
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = "Error. Al obtener cliente. " + ex.Message.ToString();
+                DateTime date = DateTime.Now;
+                string fechaFormateada = date.ToString("yyyyMMdd");
+
+                return new Invoice();
+
+            }
+            return client;
 
         }
 
