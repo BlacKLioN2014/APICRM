@@ -4,7 +4,7 @@ namespace APICRM.Models
 {
     public class Invoice
     {
-        [JsonProperty("CodigoSAP")]
+        [JsonProperty("CodigoCliente")]
         public string? CardCode { get; set; }
 
         [JsonProperty("Nombre")]

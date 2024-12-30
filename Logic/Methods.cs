@@ -302,7 +302,7 @@ namespace APICRM.Logic
                                 SELECT
 	                                T0.""CardCode"",
 	                                T0.""CardName"",
-	                                T0.""DocDate"",
+	                                TO_VARCHAR(T0.""DocDate"", 'YYYY-DD-MM') AS ""FechaFormateada"",
 	                                CASE 
 		                                WHEN T0.""U_Sucursal"" = '01' THEN 'Guadalajara' 
 		                                WHEN T0.""U_Sucursal"" = '02' THEN 'CDMX'
