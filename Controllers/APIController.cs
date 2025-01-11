@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Swashbuckle.AspNetCore.Annotations;
 using APICRM.Logic;
+using System.Collections;
 
 namespace APICRM.Controllers
 {
@@ -105,7 +106,7 @@ namespace APICRM.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("GetClients")]
-        public IActionResult GetAllClients()
+        public async Task <IActionResult> GetAllClients()
         {
             string Authorization = Request.Headers["Authorization"];
 
@@ -121,9 +122,9 @@ namespace APICRM.Controllers
                     if (userLogin.User.Trim() == _methods.UserApi && userLogin.Password.Trim() == _methods.PasswordApi.Trim())
                     {
 
-                        var MyClients = _methods.GetClients();
+                        var MyClients = await _methods.GetClients();
 
-                        if (MyClients.Result.Count < 1)
+                        if (MyClients.Count < 1)
                         {
 
                             Conflic conflic = new Conflic()
@@ -146,7 +147,7 @@ namespace APICRM.Controllers
                             Response<List<Client>> response = new Response<List<Client>>()
                             {
                                 success = true,
-                                answer = MyClients.Result
+                                answer = MyClients
                             };
 
                             return Ok(response);
@@ -249,7 +250,7 @@ namespace APICRM.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("GetClient")]
-        public IActionResult GetInfoClient([FromQuery] FindEmail mail) 
+        public async Task<IActionResult> GetInfoClient([FromQuery] FindEmail mail) 
         {
             string Authorization = Request.Headers["Authorization"];
 
@@ -270,9 +271,9 @@ namespace APICRM.Controllers
                     if (userLogin.User.Trim() == _methods.UserApi && userLogin.Password.Trim() == _methods.PasswordApi.Trim())
                     {
 
-                        var MyClients = _methods.GetClient(mail.Email);
+                        var MyClients = await _methods.GetClient(mail.Email);
 
-                        if (MyClients.Result.Count < 1)
+                        if (MyClients.Count < 1)
                         {
 
                             Conflic conflic = new Conflic()
@@ -295,7 +296,7 @@ namespace APICRM.Controllers
                             Response<List<ClientTwo>> response = new Response<List<ClientTwo>>()
                             {
                                 success = true,
-                                answer = MyClients.Result
+                                answer = MyClients
                             };
 
                             return Ok(response);
@@ -398,7 +399,7 @@ namespace APICRM.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("GetInvoice")]
-        public IActionResult GetInfoInvoice([FromQuery] FindInvoice invoice)
+        public async Task<IActionResult> GetInfoInvoice([FromQuery] FindInvoice invoice)
         {
             string Authorization = Request.Headers["Authorization"];
 
@@ -419,9 +420,9 @@ namespace APICRM.Controllers
                     if (userLogin.User.Trim() == _methods.UserApi && userLogin.Password.Trim() == _methods.PasswordApi.Trim())
                     {
 
-                        var MyClients = _methods.GetInvoice(invoice.DocNum);
+                        var MyClients = await _methods.GetInvoice(invoice.DocNum);
 
-                        if (MyClients.Result.CardCode == null || MyClients.Result == null)
+                        if (MyClients.CardCode == null || MyClients == null)
                         {
 
                             Conflic conflic = new Conflic()
@@ -444,7 +445,7 @@ namespace APICRM.Controllers
                             Response<Invoice> response = new Response<Invoice>()
                             {
                                 success = true,
-                                answer = MyClients.Result
+                                answer = MyClients
                             };
 
                             return Ok(response);

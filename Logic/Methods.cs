@@ -231,7 +231,8 @@ namespace APICRM.Logic
                                     T0.""Phone1"",
                                     T0.""E_Mail"",
                                     CASE WHEN T0.""QryGroup1"" = 'Y' THEN 'SI' ELSE 'NO' END AS ""Contado"", 
-                                    CASE WHEN T0.""QryGroup2"" = 'Y' THEN 'SI' ELSE 'NO' END AS ""Credito""
+                                    CASE WHEN T0.""QryGroup2"" = 'Y' THEN 'SI' ELSE 'NO' END AS ""Credito"",
+                                    T0.""GroupNum""
 
                                 FROM  
                                     {DB}.OCRD T0
@@ -260,6 +261,7 @@ namespace APICRM.Logic
                                 E_Mail = reader.IsDBNull(4) ? "No data" : reader.GetString(4),
                                 counted = reader.GetString(5),
                                 credit = reader.GetString(6),
+                                GroupNum = reader.IsDBNull(7) ? "No data" : reader.GetString(7),
                             };
 
                             Lista.Add(client);
@@ -308,7 +310,19 @@ namespace APICRM.Logic
 		                                WHEN T0.""U_Sucursal"" = '02' THEN 'CDMX'
 		                                WHEN T0.""U_Sucursal"" = '03' THEN 'Monterrey'
 		                                ELSE 'Salto' 
-	                                END AS ""Almacen""
+	                                END AS ""Almacen"",
+                                    CASE 
+		                                WHEN T0.""U_TypeGuide"" = '01' THEN 'DHL' 
+		                                WHEN T0.""U_Sucursal"" = '02' THEN 'ESTAFETA'
+		                                ELSE 'NA' 
+	                                END AS ""Paqueria"",
+                                    CASE 
+		                                WHEN T0.""U_TypeGuide"" = '01' THEN T0.""U_DHLGuia""
+		                                WHEN T0.""U_Sucursal"" = '02' THEN T0.""U_EstafetaGuia""
+		                                ELSE 'NA' 
+	                                END AS ""Guias"",
+
+
 	
                                 FROM
 	                                {DB}.OINV T0
@@ -327,7 +341,9 @@ namespace APICRM.Logic
                                 CardCode = reader.GetString(0),
                                 CardName = reader.IsDBNull(1) ? "No data" : reader.GetString(1),
                                 DocDate = reader.GetString(2),
-                                U_Sucursal = reader.GetString(3)
+                                U_Sucursal = reader.GetString(3),
+                                parcels = reader.GetString(4),
+                                guides = reader.GetString(5),
                             };
 
                         }

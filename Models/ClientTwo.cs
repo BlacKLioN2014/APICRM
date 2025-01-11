@@ -24,5 +24,8 @@ namespace APICRM.Models
 
         [JsonProperty("Crédito")]
         public string? credit { get; set; }
+
+        [JsonProperty("CondicionDePago")]
+        public string? GroupNum { get; set; }
     }
 }
