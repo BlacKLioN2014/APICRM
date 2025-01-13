@@ -42,6 +42,7 @@ C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\APICRM.As
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\APICRM.csproj.CoreCompileInputs.cache
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\APICRM.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\APICRM.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\APICRM.sourcelink.json
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\staticwebassets.build.json
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\staticwebassets.development.json
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\staticwebassets\msbuild.APICRM.Microsoft.AspNetCore.StaticWebAssets.props
@@ -56,4 +57,3 @@ C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\refint\AP
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\APICRM.pdb
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\APICRM.genruntimeconfig.cache
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\ref\APICRM.dll
-C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\APICRM.sourcelink.json

@@ -287,6 +287,8 @@ namespace APICRM.Logic
         public async Task<Invoice> GetInvoice(int DocNum)
         {
 
+            string guias = string.Empty;
+
             var client = new Invoice();
 
             string DB = string.Empty;
@@ -314,12 +316,12 @@ namespace APICRM.Logic
 	                                END AS ""Almacen"",
                                     CASE 
 		                                WHEN T0.""U_TypeGuide"" = '01' THEN 'DHL' 
-		                                WHEN T0.""U_Sucursal"" = '02' THEN 'ESTAFETA'
-		                                ELSE 'NA' 
+		                                WHEN T0.""U_TypeGuide"" = '02' THEN 'ESTAFETA'
+		                                ELSE 'Logistica propia' 
 	                                END AS ""Paqueria"",
                                     CASE 
 		                                WHEN T0.""U_TypeGuide"" = '01' THEN T0.""U_DHLGuia""
-		                                WHEN T0.""U_Sucursal"" = '02' THEN T0.""U_EstafetaGuia""
+		                                WHEN T0.""U_TypeGuide"" = '02' THEN T0.""U_EstafetaGuia""
 		                                ELSE 'NA' 
 	                                END AS ""Guias""
 
@@ -343,11 +345,42 @@ namespace APICRM.Logic
                                 CardName = reader.IsDBNull(1) ? "No data" : reader.GetString(1),
                                 DocDate = reader.GetString(2),
                                 U_Sucursal = reader.GetString(3),
-                                parcels = reader.GetString(4),
-                                guides = reader.GetString(5),
+                                Parcels = reader.GetString(4),
                             };
 
+                            guias = reader.GetString(5);
+
                         }
+                    }
+
+
+                    if (guias != "NA")
+                    {
+                        //Si termina en " -" quitarlos
+                        if (guias.EndsWith(" - "))
+                        {
+                            guias = guias.Substring(0, guias.Length - 2);
+                        }
+
+                        //Si inicia en " -" quitarlos
+                        if (guias.StartsWith(" -"))
+                        {
+                            guias = guias.Substring(2);  // Retirar los primeros dos caracteres (espacio y guion)
+                        }
+
+                        List<string> Guias = new List<string>();
+                        // Dividir el string usando el guion como delimitador
+                        string[] partes = guias.Split(" - ");
+
+                        foreach (var parte in partes)
+                        {
+                            //var Guide = new Guide()
+                            //{
+                            //    NumberOfGuide = parte,
+                            //};
+                            Guias.Add(parte);
+                        }
+                        client.Guides = Guias;
                     }
 
                     var Items = new List<Item>();
@@ -379,9 +412,9 @@ namespace APICRM.Logic
                                 ItemCode = reader.GetString(0),
                                 Dscription = reader.GetString(1),
                                 CodeBars = reader.IsDBNull(2) ? "No data" : reader.GetString(2),
-                                Quantity = reader.GetString(3),
-                                PriceBefDi = reader.GetString(4),
-                                DiscPrcnt = reader.GetString(5)
+                                Quantity = reader.GetString(3).Replace(".000000", ""),
+                                PriceBefDi = reader.GetString(4).Replace("0000", ""),
+                                DiscPrcnt = reader.GetString(5).Replace("0000", "")
                             };
 
                             Items.Add(Item);

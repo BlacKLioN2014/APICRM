@@ -17,10 +17,10 @@ namespace APICRM.Models
         public string? U_Sucursal { get; set; }
 
         [JsonProperty("Paqueteria")]
-        public string? parcels { get; set; }
+        public string? Parcels { get; set; }
 
         [JsonProperty("Guias")]
-        public string? guides { get; set; }
+        public List<string>? Guides { get; set; }
 
         [JsonProperty("Artículos")]
         public List<Item>? Items { get; set; }
