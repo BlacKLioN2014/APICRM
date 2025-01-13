@@ -14,5 +14,8 @@ namespace APICRM.Models
         [JsonProperty("Disponible")]
         public decimal available { get; set; }
 
+        [JsonProperty("CondicionDePago")]
+        public string? GroupNum { get; set; }
+
     }
 }

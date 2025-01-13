@@ -20,9 +20,6 @@ namespace APICRM.Models
         [JsonProperty("Correo")]
         public string? E_Mail { get; set; }
 
-        //[JsonProperty("CodigoEmpleado")]
-        //public string? SlpCode { get; set; }
-
         [JsonProperty("InformacionCrediticia")]
         public CreditInformation? CreditInformation { get; set; }
 

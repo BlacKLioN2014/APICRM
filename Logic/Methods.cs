@@ -115,7 +115,7 @@ namespace APICRM.Logic
                                     T0.""CardFName"",
                                     T0.""Phone1"",
                                     T0.""E_Mail"",
-                                    T0.""SlpCode"",
+                                    T1.""PymntGroup"",
 
                                     CASE 
                                         WHEN T0.""U_CodigoAgrupador"" IS NULL THEN IFNULL(T0.""CreditLine"", 0) 
@@ -154,7 +154,8 @@ namespace APICRM.Logic
                                     END AS ""Disponible""
 
                                 FROM  
-                                    {DB}.OCRD T0
+                                    {DB}.OCRD T0  
+                                    INNER JOIN {DB}.OCTG T1 ON T0.""GroupNum"" = T1.""GroupNum""
 
                                 WHERE  
                                     T0.""validFor"" = 'Y'
@@ -177,11 +178,11 @@ namespace APICRM.Logic
                                 CardFName = reader.IsDBNull(2) ? "No data" : reader.GetString(2),
                                 Phone1 = reader.IsDBNull(3) ? "No data" : reader.GetString(3),
                                 E_Mail = reader.IsDBNull(4) ? "No data" : reader.GetString(4),
-                                //SlpCode = reader.IsDBNull(5) ? "No data" : reader.GetString(5),
                             };
 
                             var CreditInformation = new CreditInformation()
                             {
+                                GroupNum = reader.IsDBNull(5) ? "No data" : reader.GetString(5),
                                 Limit = reader.GetDecimal(6),
                                 Balance = reader.GetDecimal(7),
                                 available = reader.GetDecimal(8),
@@ -320,7 +321,7 @@ namespace APICRM.Logic
 		                                WHEN T0.""U_TypeGuide"" = '01' THEN T0.""U_DHLGuia""
 		                                WHEN T0.""U_Sucursal"" = '02' THEN T0.""U_EstafetaGuia""
 		                                ELSE 'NA' 
-	                                END AS ""Guias"",
+	                                END AS ""Guias""
 
 
 	
