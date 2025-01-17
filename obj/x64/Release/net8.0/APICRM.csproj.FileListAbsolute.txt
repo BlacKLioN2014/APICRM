@@ -57,3 +57,8 @@ C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Release\net8.0\refint\
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Release\net8.0\APICRM.pdb
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Release\net8.0\APICRM.genruntimeconfig.cache
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Release\net8.0\ref\APICRM.dll
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\AutoMapper.dll
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Scrutor.dll
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Swashbuckle.AspNetCore.Filters.dll
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll

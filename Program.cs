@@ -1,6 +1,14 @@
 using APICRM.Logic;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Filters;
+using APICRM.Models;
+using APICRM.Models.Mapper;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +21,9 @@ builder.Services.AddCors(p => p.AddPolicy("politicaCors", build =>
          .AllowCredentials(); // No uses AllowAnyOrigin()
 }));
 
+//Agregamos el auto mapper
+builder.Services.AddAutoMapper(typeof(Mapper));
+
 //Add soporte para cache
 builder.Services.AddResponseCaching();
 
@@ -21,11 +32,19 @@ builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
     {
         // Opciones de configuración para Newtonsoft.Json (si las necesitas)
-        options.SerializerSettings.ContractResolver = new DefaultContractResolver();  // Esto es opcional, pero te asegura que las propiedades sean camelCase por defecto.
+        //options.SerializerSettings.ContractResolver = new DefaultContractResolver();  // Esto es opcional, pero te asegura que las propiedades sean camelCase por defecto.
+
+        options.SerializerSettings.ContractResolver = new DefaultContractResolver()
+        {
+            NamingStrategy = new DefaultNamingStrategy() // Aquí se indica que no haya transformación en el nombre de las propiedades
+        };
+
     });
+
 
 //Add soporte a mi clase logic
 builder.Services.AddScoped<Methods>();
+builder.Services.AddSwaggerExamplesFromAssemblyOf<RequestExample>(); // Registra los ejemplos en tu proyecto
 
 builder.Services.AddControllers();
 
@@ -33,6 +52,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
+
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
         Title = "API Integracion Fresh",
@@ -41,6 +61,10 @@ builder.Services.AddSwaggerGen(c =>
 
     // Habilitar soporte para anotaciones (como [SwaggerOperation])
     c.EnableAnnotations();
+
+    // Esto te permite agregar ejemplos para tus modelos
+    c.ExampleFilters(); // Esto es para añadir los ejemplos personalizados
+
 });
 
 var app = builder.Build();

@@ -5,6 +5,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Sap.Data.Hana;
+using Newtonsoft.Json;
+using static System.Net.Mime.MediaTypeNames;
+using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
+using AutoMapper;
+using APICRM.Models.Mapper;
 
 namespace APICRM.Logic
 {
@@ -18,14 +24,17 @@ namespace APICRM.Logic
         private readonly string DBYes = string.Empty;
         private readonly string DBNo = string.Empty;
         private readonly string productive = string.Empty;
+        private readonly string UserSAP = string.Empty;
+        private readonly string PassWordSAP = string.Empty;
 
         IConfiguration _config;
+        private readonly IMapper _mapper;
 
-        public Methods(IConfiguration config)
+        public Methods(IConfiguration config, IMapper mapper)
         {
 
             _config = config;
-
+            _mapper = mapper;
             Secreta = _config.GetValue<string>("ApiSettings:Secreta");
             UserApi = _config.GetValue<string>("ApiSettings:UserApi");
             PasswordApi = _config.GetValue<string>("ApiSettings:PasswordApi");
@@ -33,6 +42,9 @@ namespace APICRM.Logic
             DBYes = _config.GetValue<string>("ApiSettings:DBYes");
             DBNo = _config.GetValue<string>("ApiSettings:DBNo");
             productive = _config.GetValue<string>("ApiSettings:Productive");
+            UserSAP = _config.GetValue<string>("ApiSettings:UserSAP");
+            PassWordSAP = _config.GetValue<string>("ApiSettings:PassWordSAP");
+
         }
 
         public  string generarToKen(UserLogin UserLogin)
@@ -436,6 +448,178 @@ namespace APICRM.Logic
             return client;
 
         }
+
+        public async Task<string> CreatingReturnRequest(Models.returnRequest Request)
+        {
+            //JsonContent json = JsonContent.Create(new { }); // Asigna un objeto vacío
+
+            try
+            {
+                var Session = await ConexionSAPSL();
+                var returnRequest = await ReturnRequest(Request, Session);
+                return returnRequest;
+
+            }
+            catch (Exception ex)
+            {
+                string error = "Error. No fue posible crear una solicitud de devolucion " + ex.Message.ToString();
+                DateTime date = DateTime.Now;
+                string fechaFormateada = date.ToString("yyyyMMdd");
+            }
+            return "";
+        }
+
+        public async Task<string> ConexionSAPSL()
+        {
+            string result = "";
+            try
+            {
+                string loginData = JsonConvert.SerializeObject(new
+                {
+                    CompanyDB = DBNo,
+                    Password = PassWordSAP,
+                    UserName = UserSAP
+                });
+
+                using (var httpClient = new HttpClient())
+                {
+                    var url = "http://172.16.21.249:50001/b1s/v1/Login";
+
+                    // Configurar encabezados de solicitud
+                    httpClient.DefaultRequestHeaders.Add("B1S-WCFCompatible", "true");
+                    httpClient.DefaultRequestHeaders.Add("B1S-MetadataWithoutSession", "true");
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+                    httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+                    httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
+                    httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("br"));
+
+                    var loginContent = new StringContent(loginData, Encoding.UTF8, "application/json");
+
+                    // Realizar solicitud POST
+                    var loginResponse = await httpClient.PostAsync(url, loginContent);
+
+                    if (loginResponse.IsSuccessStatusCode)
+                    {
+                        // Leer el contenido de la respuesta como una cadena
+                        string responseContent = await loginResponse.Content.ReadAsStringAsync();
+
+                        // Parsear el JSON
+                        JObject jsonResponse = JObject.Parse(responseContent);
+
+                        // Leer los valores de los campos
+                        string odataMetadata = jsonResponse["odata.metadata"].ToString();
+                        string sessionId = jsonResponse["SessionId"].ToString();
+                        string version = jsonResponse["Version"].ToString();
+                        int sessionTimeout = jsonResponse["SessionTimeout"].ToObject<int>();
+
+                        return sessionId;
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return result;
+        }
+
+        public async Task<string> ReturnRequest(Models.returnRequest returnRequest, string session)
+        {
+            string result = "";
+            try
+            {
+                var jsonBody = _mapper.Map<APICRM.Models.Mapper.returnRequest>(returnRequest);
+                string body = JsonConvert.SerializeObject(jsonBody);
+
+                var handler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true // Solo para pruebas
+                };
+
+                using (var httpClient = new HttpClient(handler))
+                {
+                    var url = "https://172.16.21.249:50000/b1s/v1/ReturnRequest";
+
+                    // Configurar encabezados de solicitud
+                    httpClient.DefaultRequestHeaders.Add("Cookie", "B1SESSION=" + session + "; ROUTEID=.node2");
+                    httpClient.DefaultRequestHeaders.Add("Connection", "keep-alive");
+                    httpClient.DefaultRequestHeaders.Add("B1S-WCFCompatible", "true");
+                    httpClient.DefaultRequestHeaders.Add("B1S-MetadataWithoutSession", "true");
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*"));
+                    httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+                    httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
+                    httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("br"));
+
+                    var loginContent = new StringContent(body, Encoding.UTF8, "application/json");
+
+                    // Realizar solicitud POST
+                    var loginResponse = httpClient.PostAsync(url, loginContent).GetAwaiter().GetResult(); // Bloquea hasta que termine
+
+                    if (loginResponse.IsSuccessStatusCode)
+                    {
+
+                        // Verificar si la respuesta está comprimida
+                        var contentEncoding = loginResponse.Content.Headers.ContentEncoding.FirstOrDefault();
+                        string responseContent = string.Empty;
+
+                        if (contentEncoding == "gzip" || contentEncoding == "deflate")
+                        {
+                            // Descomprimir la respuesta
+                            using (var stream = await loginResponse.Content.ReadAsStreamAsync())
+                            using (var decompressedStream = new System.IO.Compression.GZipStream(stream, System.IO.Compression.CompressionMode.Decompress))
+                            using (var reader = new System.IO.StreamReader(decompressedStream))
+                            {
+                                responseContent = await reader.ReadToEndAsync();
+                            }
+                        }
+                        else
+                        {
+                            // Si no está comprimido, leer directamente
+                            responseContent = await loginResponse.Content.ReadAsStringAsync();
+                        }
+
+                        // Ahora que tienes el contenido descomprimido, intenta parsearlo como JSON
+                        try
+                        {
+                            JObject jsonResponse = JObject.Parse(responseContent);
+
+                            result = JsonConvert.SerializeObject(jsonResponse);
+
+                            return result;
+                        }
+                        catch (JsonException ex)
+                        {
+                            result = "Error. al parsear JSON: " + ex.Message;
+                        }
+                    }
+                    else
+                    {
+                        result = "Error. IsSuccessStatusCode false";
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                result = "Error. En la solicitud HTTP: " + ex.Message;
+            }
+            catch (TimeoutException ex)
+            {
+                result = "Error. La solicitud ha expirado: " + ex.Message;
+            }
+            catch (Exception ex)
+            {
+                result = "Error. General: " + ex.Message;
+            }
+
+            return result;
+        }
+
 
     }
 }

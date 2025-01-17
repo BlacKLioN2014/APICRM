@@ -5,6 +5,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Swashbuckle.AspNetCore.Annotations;
 using APICRM.Logic;
 using System.Collections;
+using Swashbuckle.AspNetCore.Filters;
+using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace APICRM.Controllers
 {
@@ -536,6 +540,131 @@ namespace APICRM.Controllers
             }
 
         }
+
+
+        [HttpPost]
+        [SwaggerOperation(
+        Summary ="Generar solicitud de devolucion en SAP",
+        Description = "Este servicio permite la generacion de un documento solicitud de devolucion en SAP, es imprescindible disponer de un token de autentificacion válido")]
+        [ResponseCache(Duration = 10)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route("CreateReturnRequest")]
+        [SwaggerRequestExample(typeof(returnRequest), typeof(RequestExample))]  // Aquí agregas el ejemplo
+        public async Task<IActionResult> returnRequest([FromBody] returnRequest request)
+        {
+
+            string Authorization = Request.Headers["Authorization"];
+
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (!string.IsNullOrEmpty(Authorization))
+                {
+                    Authorization = Authorization.Replace("Bearer ", "");
+
+                    UserLogin userLogin = _methods.desifrarToken(Authorization.Trim());
+
+                    if (userLogin.User.Trim() == _methods.UserApi && userLogin.Password.Trim() == _methods.PasswordApi.Trim())
+                    {
+                        //returnRequest Truerequest = JsonConvert.DeserializeObject<returnRequest>(jsonRecibido);
+                        //string jsonParaEnvio = JsonConvert.SerializeObject(Truerequest);
+
+                        var Creating = await _methods.CreatingReturnRequest(request);
+                        //string CreatingString = JsonConvert.SerializeObject(Creating);
+
+                        if (string.IsNullOrEmpty(Creating) || Creating.Contains("Error. "))
+                        {
+
+                            Conflic conflic = new Conflic()
+                            {
+                                code = 404,
+                                Description = Creating
+                            };
+
+                            Response<Conflic> response = new Response<Conflic>()
+                            {
+                                success = false,
+                                answer = conflic
+                            };
+
+                            return StatusCode(500, response);
+
+                        }
+                        else
+                        {
+
+                            dynamic jsonObj = JsonConvert.DeserializeObject<dynamic>(Creating);
+
+                            Response<dynamic> response = new Response<dynamic>()
+                            {
+                                success = true,
+                                answer = jsonObj
+                            };
+
+                            return Ok(response);
+
+                        }
+                    }
+                    else
+                    {
+                        Conflic conflic = new Conflic()
+                        {
+                            code = 400,
+                            Description = "Token no válido. Por favor, revíselo e inténtelo de nuevo."
+                        };
+
+                        Response<Conflic> response = new Response<Conflic>()
+                        {
+                            success = false,
+                            answer = conflic
+                        };
+
+                        return BadRequest(response);
+                    }
+                }
+                else
+                {
+                    Conflic conflic = new Conflic()
+                    {
+                        code = 400,
+                        Description = "Es necesario incluir un token válido para continuar."
+                    };
+
+                    Response<Conflic> response = new Response<Conflic>()
+                    {
+                        success = false,
+                        answer = conflic
+                    };
+
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception x)
+            {
+                Conflic conflic = new Conflic()
+                {
+                    code = 500,
+                    Description = "Ha ocurrido un error interno. Por favor, inténtelo de nuevo más tarde."
+                };
+
+                Response<Conflic> response = new Response<Conflic>()
+                {
+                    success = false,
+                    answer = conflic
+                };
+
+                return StatusCode(500, response);
+            }
+        }
+
 
     }
 }
