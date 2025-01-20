@@ -23,5 +23,8 @@ namespace APICRM.Models
         [JsonProperty("Descuento")]
         public string? DiscPrcnt { get; set; }
 
+        [JsonProperty("IVA")]
+        public string? TaxCode { get; set; }
+
     }
 }

@@ -14,16 +14,13 @@ namespace APICRM.Models
         public int Quantity { get; set; }
 
         [Required]
-        [JsonProperty("%Descuento")]
+        [JsonProperty("Descuento")]
         public int DiscountPercent { get; set; }
-
-        [JsonProperty("Almacen")]
-        public string? WarehouseCode { get; set; }
 
         [JsonProperty("CodigoDeBarras")]
         public string? BarCode { get; set; }
 
-        [JsonProperty("CódigoFiscal")]
+        [JsonProperty("CodigoFiscal")]
         public string? TaxCode { get; set; }
 
         [Required]

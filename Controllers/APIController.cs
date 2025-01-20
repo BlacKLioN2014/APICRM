@@ -545,7 +545,7 @@ namespace APICRM.Controllers
         [HttpPost]
         [SwaggerOperation(
         Summary ="Generar solicitud de devolucion en SAP",
-        Description = "Este servicio permite la generacion de un documento solicitud de devolucion en SAP, es imprescindible disponer de un token de autentificacion válido")]
+        Description = "Este servicio facilita la generación de un documento de solicitud de devolución en SAP. Para su uso, es indispensable contar con un token de autenticación válido.")]
         [ResponseCache(Duration = 10)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

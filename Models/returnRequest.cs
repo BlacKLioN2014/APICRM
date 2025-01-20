@@ -29,7 +29,7 @@ namespace APICRM.Models
         [JsonProperty("Folio")]
         public string? Series { get; set; }
 
-        [JsonProperty("CondiciónDePago")]
+        [JsonProperty("CondicionDePago")]
         public string? PaymentGroupCode { get; set; }
 
         [JsonProperty("FormaDePago")]
@@ -48,7 +48,7 @@ namespace APICRM.Models
         public string? U_CIncidencia { get; set; }
 
         [JsonProperty("HoraIncidencia")]
-        public DateTime U_TimeInc { get; set; }
+        public string U_TimeInc { get; set; }
 
         [JsonProperty("EstatusIncidencia")]
         public string? U_StatusInc { get; set; }

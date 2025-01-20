@@ -14,8 +14,6 @@ namespace APICRM.Models.Mapper
         [Required]
         public int DiscountPercent { get; set; }
 
-        public string? WarehouseCode { get; set; }
-
         public string? BarCode { get; set; }
 
         public string? TaxCode { get; set; }

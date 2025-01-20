@@ -5,6 +5,7 @@ C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\APICRM.
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\APICRM.runtimeconfig.json
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\APICRM.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\APICRM.pdb
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\AutoMapper.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
@@ -16,6 +17,7 @@ C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microso
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.Extensions.Logging.dll
@@ -28,7 +30,10 @@ C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microso
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.OpenApi.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Newtonsoft.Json.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Newtonsoft.Json.Bson.dll
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Scrutor.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Swashbuckle.AspNetCore.Annotations.dll
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Swashbuckle.AspNetCore.Filters.dll
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -57,8 +62,3 @@ C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Release\net8.0\refint\
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Release\net8.0\APICRM.pdb
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Release\net8.0\APICRM.genruntimeconfig.cache
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Release\net8.0\ref\APICRM.dll
-C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\AutoMapper.dll
-C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Microsoft.Extensions.DependencyModel.dll
-C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Scrutor.dll
-C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Swashbuckle.AspNetCore.Filters.dll
-C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Release\net8.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll

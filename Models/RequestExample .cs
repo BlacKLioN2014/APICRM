@@ -20,7 +20,7 @@ namespace APICRM.Models
                 SalesPersonCode = "32",
                 U_B1SYS_MainUsage = "S01",
                 U_CIncidencia = "Ventas10",
-                U_TimeInc = DateTime.Parse("2025-01-16T23:08:24.125Z"),
+                U_TimeInc = "2025-01-16T23:08:24",
                 U_StatusInc = "Pendiente",
                 DocumentReferences = new List<DocumentReferences>
                 {
@@ -39,7 +39,7 @@ namespace APICRM.Models
                     ItemCode = "BIO-ANTD0001",
                     Quantity = 4,
                     DiscountPercent = 10,
-                    WarehouseCode = "01",
+                    //WarehouseCode = "01",
                     BarCode = "3461029800007",
                     TaxCode = "IVAV16",
                     UnitPrice = 100,

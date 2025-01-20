@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using AutoMapper;
 using APICRM.Models.Mapper;
+using System.Runtime.CompilerServices;
 
 namespace APICRM.Logic
 {
@@ -404,7 +405,8 @@ namespace APICRM.Logic
 	                                T1.""CodeBars"",
 	                                T1.""Quantity"",
 	                                T1.""PriceBefDi"",
-	                                T1.""DiscPrcnt""
+	                                T1.""DiscPrcnt"",
+                                    T1.""TaxCode""
 	
                                 FROM
 	                                {DB}.OINV T0  
@@ -423,10 +425,11 @@ namespace APICRM.Logic
                             {
                                 ItemCode = reader.GetString(0),
                                 Dscription = reader.GetString(1),
-                                CodeBars = reader.IsDBNull(2) ? "No data" : reader.GetString(2),
+                                CodeBars = reader.GetString(1),
                                 Quantity = reader.GetString(3).Replace(".000000", ""),
                                 PriceBefDi = reader.GetString(4).Replace("0000", ""),
-                                DiscPrcnt = reader.GetString(5).Replace("0000", "")
+                                DiscPrcnt = reader.GetString(5).Replace("0000", ""),
+                                TaxCode = reader.GetString(6),
                             };
 
                             Items.Add(Item);
@@ -451,11 +454,45 @@ namespace APICRM.Logic
 
         public async Task<string> CreatingReturnRequest(Models.returnRequest Request)
         {
-            //JsonContent json = JsonContent.Create(new { }); // Asigna un objeto vacío
 
             try
             {
                 var Session = await ConexionSAPSL();
+
+                //Completar datos en cabesera
+                Request.DocDate = DateTime.Now;
+                Request.Comments = "Solicitud de devolución generada desde Fresh.";
+                Request.U_StatusInc = "Pendiente";
+                Request.U_TimeInc = DateTime.Now.ToString();
+                Request.Series = "77";
+
+                //Consulta para obtener, datos faltantes
+                var query = await GetQuery(Request.DocumentReferences[0].RefDocNum);
+
+                //Completar datos faltantes en cabesera
+                Request.U_Sucursal = query.U_Sucursal;
+                Request.U_RFCondiciones = query.U_RFCondiciones;
+                Request.NumAtCard = query.LicTradNum;
+                Request.SalesPersonCode = query.SlpCode;
+                Request.U_CIncidencia = query.USER_CODE;
+                Request.PaymentMethod = query.PeyMethod;
+                Request.PaymentGroupCode = query.GroupNum;
+
+                //Logica para completar datos faltantes en cabesera
+                if(query.U_RFCondiciones == "01" || query.U_RFCondiciones == "03")
+                {
+                    Request.U_B1SYS_MainUsage = "S01";
+                }
+                else
+                {
+                    Request.U_B1SYS_MainUsage = "G02";
+                }
+
+                //Completar datos faltantes en documentos referenciados
+                Request.DocumentReferences[0].LineNumber = 1;
+                Request.DocumentReferences[0].RefObjType = "rot_SalesInvoice";
+                Request.DocumentReferences[0].RefDocEntr = query.DocEntry;
+
                 var returnRequest = await ReturnRequest(Request, Session);
                 return returnRequest;
 
@@ -589,7 +626,16 @@ namespace APICRM.Logic
                         {
                             JObject jsonResponse = JObject.Parse(responseContent);
 
-                            result = JsonConvert.SerializeObject(jsonResponse);
+                            
+                            JsonContent json = JsonContent.Create(
+                                new 
+                                {
+                                    FolioInterno = jsonResponse["DocEntry"],
+                                    Folio = jsonResponse["DocNum"],
+                                }
+                                ); // Asigna un objeto vacío
+
+                            result = JsonConvert.SerializeObject(json.Value);
 
                             return result;
                         }
@@ -620,6 +666,78 @@ namespace APICRM.Logic
             return result;
         }
 
+        public async Task<InvoiceQuery> GetQuery(int DocNum)
+        {
 
+            string DB = string.Empty;
+            string StrSql = string.Empty;
+            var Query = new InvoiceQuery();
+
+            try
+            {
+
+                using (var Con = new HanaConnection(HanaConec))
+                {
+                    await Con.OpenAsync();
+                    DB = productive == "YES" ? DBYes : DBNo;
+
+                    StrSql = $@"
+                            SELECT DISTINCT
+	                            T0.""DocEntry"",
+	                            T0.""U_Sucursal"",
+	                            T0.""U_RFCondiciones"",
+	                            T0.""SlpCode"",
+	                            T1.""LicTradNum"",
+	                            T4.""USER_CODE"",
+                                T0.""GroupNum"",
+                                T0.""PeyMethod""
+	
+                            FROM
+	                            {DB}.OINV T0
+	                            INNER JOIN {DB}.OCRD T1 ON T0.""CardCode""  = T1.""CardCode""
+	                            INNER JOIN {DB}.INV1 T2 ON T0.""DocEntry"" = T2.""DocEntry""
+	                            INNER JOIN {DB}.ORDR T3 ON T2.""BaseEntry"" = T3.""DocEntry""
+	                            INNER JOIN {DB}.OUSR T4 ON T3.""UserSign"" = T4.""USERID""
+	                            INNER JOIN {DB}.OSLP T5 ON T0.""SlpCode"" = T5.""SlpCode""
+
+                            WHERE
+	                            T0.""DocNum"" = '{DocNum}'
+      
+";
+
+                    using (var cmd = new HanaCommand(StrSql, Con))
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            Query = new InvoiceQuery()
+                            {
+                                DocEntry = reader.GetInt32(0),
+                                U_Sucursal = reader.IsDBNull(1) ? "05" : reader.GetString(1),
+                                U_RFCondiciones = reader.GetString(2),
+                                SlpCode = reader.GetString(3),
+                                LicTradNum = reader.GetString(4),
+                                USER_CODE = reader.GetString(5),
+                                GroupNum = reader.GetString(6),
+                                PeyMethod = reader.GetString(7),
+                            };
+
+                        }
+                    }
+                    return Query;
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = "Error. Al obtener query. " + ex.Message.ToString();
+                DateTime date = DateTime.Now;
+                string fechaFormateada = date.ToString("yyyyMMdd");
+
+                return new InvoiceQuery();
+
+            }
+
+        }
     }
 }
