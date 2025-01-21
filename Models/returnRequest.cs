@@ -48,7 +48,7 @@ namespace APICRM.Models
         public string? U_CIncidencia { get; set; }
 
         [JsonProperty("HoraIncidencia")]
-        public string U_TimeInc { get; set; }
+        public string? U_TimeInc { get; set; }
 
         [JsonProperty("EstatusIncidencia")]
         public string? U_StatusInc { get; set; }
