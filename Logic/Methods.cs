@@ -297,6 +297,68 @@ namespace APICRM.Logic
 
         }
 
+        public async Task<List<LastInvoices>> Invoices(string CardCode)
+        {
+            var Lista = new List<LastInvoices>();
+
+            string DB = string.Empty;
+
+            string StrSql = string.Empty;
+
+            try
+            {
+
+                using (var Con = new HanaConnection(HanaConec))
+                {
+                    await Con.OpenAsync();
+                    DB = productive == "YES" ? DBYes : DBNo;
+
+                    StrSql = $@"
+                                SELECT 
+	                                T0.""DocNum"",
+	                                T0.""DocEntry"",
+	                                T0.""DocDate""
+                                FROM 
+	                                {DB}.OINV T0
+                                WHERE
+	                                T0.""CardCode"" = '{CardCode}'
+                                ORDER BY
+	                                T0.""DocDate"" DESC
+                                LIMIT 5
+";
+
+                    using (var cmd = new HanaCommand(StrSql, Con))
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            var invoice = new LastInvoices()
+                            {
+                                DocNum = reader.GetString(0),
+                                DocEntry = reader.GetString(1),
+                                DocDate = reader.GetDateTime(2),
+                            };
+
+                            Lista.Add(invoice);
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = "Error. Al obtener listado de facturas. " + ex.Message.ToString();
+                DateTime date = DateTime.Now;
+                string fechaFormateada = date.ToString("yyyyMMdd");
+
+                return new List<LastInvoices>();
+
+            }
+            return Lista;
+
+        }
+
         public async Task<Invoice> GetInvoice(int DocNum)
         {
 
