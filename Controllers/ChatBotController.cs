@@ -247,5 +247,120 @@ namespace APICRM.Controllers
             }
 
         }
+
+        [HttpPost]
+        [SwaggerOperation(
+        Summary = "Enviar factura por correo",
+        Description = "Este servicio permite generar el documento PDF de una factura y enviarla por correo electronico. Para su correcto funcionamiento, es necesario contar con un token de autenticación válido.")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route("SendPdf")]
+        public async Task<IActionResult> GetAndSendPdf([FromBody] FindInvoice Factura)
+        {
+            string Authorization = Request.Headers["Authorization"];
+
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (!string.IsNullOrEmpty(Authorization))
+                {
+                    Authorization = Authorization.Replace("Bearer ", "");
+
+                    UserLogin userLogin = methods.desifrarToken(Authorization.Trim());
+
+                    if (userLogin.User.Trim() == methods.UserApi && userLogin.Password.Trim() == methods.PasswordApi.Trim())
+                    {
+
+                        //var Send = await methods.Invoices(Code.CardCode);
+
+                        if (2 < 1)
+                        {
+
+                            Conflic conflic = new Conflic()
+                            {
+                                code = 404,
+                                Description = "No se encontraron facturas."
+                            };
+
+                            Response<Conflic> response = new Response<Conflic>()
+                            {
+                                success = false,
+                                answer = conflic
+                            };
+
+                            return NotFound(response);
+
+                        }
+                        else
+                        {
+                            Response<List<LastInvoices>> response = new Response<List<LastInvoices>>()
+                            {
+                                success = true,
+                                answer = new List<LastInvoices>()
+                            };
+
+                            return Ok(response);
+
+                        }
+                    }
+                    else
+                    {
+                        Conflic conflic = new Conflic()
+                        {
+                            code = 400,
+                            Description = "Token no válido. Por favor, revíselo e inténtelo de nuevo."
+                        };
+
+                        Response<Conflic> response = new Response<Conflic>()
+                        {
+                            success = false,
+                            answer = conflic
+                        };
+
+                        return BadRequest(response);
+                    }
+                }
+                else
+                {
+                    Conflic conflic = new Conflic()
+                    {
+                        code = 400,
+                        Description = "Es necesario incluir un token válido para continuar."
+                    };
+
+                    Response<Conflic> response = new Response<Conflic>()
+                    {
+                        success = false,
+                        answer = conflic
+                    };
+
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception x)
+            {
+                Conflic conflic = new Conflic()
+                {
+                    code = 500,
+                    Description = "Ha ocurrido un error interno. Por favor, inténtelo de nuevo más tarde."
+                };
+
+                Response<Conflic> response = new Response<Conflic>()
+                {
+                    success = false,
+                    answer = conflic
+                };
+
+                return StatusCode(500, response);
+            }
+
+        }
     }
 }
