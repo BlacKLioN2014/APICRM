@@ -62,3 +62,5 @@ C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\refint\AP
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\APICRM.pdb
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\APICRM.genruntimeconfig.cache
 C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\obj\x64\Debug\net8.0\ref\APICRM.dll
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Debug\net8.0\PDF.dll
+C:\Users\abraham.jimenez\Desktop\Proyectos\APICRM\bin\x64\Debug\net8.0\PDF.pdb

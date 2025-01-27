@@ -7,16 +7,16 @@
       "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:controllers\\chatbotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\models\\findinvoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:models\\findinvoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\logic\\methods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:logic\\methods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\models\\findcardcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:models\\findcardcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,15 +42,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FindCardCode.cs",
-              "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\FindCardCode.cs",
-              "RelativeDocumentMoniker": "Models\\FindCardCode.cs",
-              "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\FindCardCode.cs",
-              "RelativeToolTip": "Models\\FindCardCode.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAoAAAAfAAAA",
+              "DocumentIndex": 1,
+              "Title": "FindInvoice.cs",
+              "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\FindInvoice.cs",
+              "RelativeDocumentMoniker": "Models\\FindInvoice.cs",
+              "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\FindInvoice.cs",
+              "RelativeToolTip": "Models\\FindInvoice.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-23T21:37:07.872Z"
+              "WhenOpened": "2025-01-27T21:39:48.253Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -60,9 +61,10 @@
               "RelativeDocumentMoniker": "Logic\\Methods.cs",
               "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Logic\\Methods.cs",
               "RelativeToolTip": "Logic\\Methods.cs",
-              "ViewState": "AQIAAFkBAAAAAAAAAAAAwGcBAAAIAAAA",
+              "ViewState": "AQIAABoAAAAAAAAAAADwv98AAABCAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-19T16:52:10.633Z"
+              "WhenOpened": "2024-12-19T16:52:10.633Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -72,20 +74,20 @@
               "RelativeDocumentMoniker": "Controllers\\ChatBotController.cs",
               "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Controllers\\ChatBotController.cs",
               "RelativeToolTip": "Controllers\\ChatBotController.cs",
-              "ViewState": "AQIAAAwBAAAAAAAAAAAuwBkBAAAAAAAA",
+              "ViewState": "AQIAAIYAAAAAAAAAAAAowFsBAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-23T19:51:03.708Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "APIController.cs",
               "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Controllers\\APIController.cs",
               "RelativeDocumentMoniker": "Controllers\\APIController.cs",
               "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Controllers\\APIController.cs",
               "RelativeToolTip": "Controllers\\APIController.cs",
-              "ViewState": "AQIAAGwAAAAAAAAAAAAowAABAABXAAAA",
+              "ViewState": "AQIAABkAAAAAAAAAAAAgwAABAABXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-23T20:12:52.467Z",
               "EditorCaption": ""

@@ -2,6 +2,7 @@
 using APICRM.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using PDF;
 
 namespace APICRM.Controllers
 {
@@ -278,7 +279,7 @@ namespace APICRM.Controllers
                     if (userLogin.User.Trim() == methods.UserApi && userLogin.Password.Trim() == methods.PasswordApi.Trim())
                     {
 
-                        //var Send = await methods.Invoices(Code.CardCode);
+                        var Send = await PDF.Program.CrearReporte(Factura.DocNum);
 
                         if (2 < 1)
                         {

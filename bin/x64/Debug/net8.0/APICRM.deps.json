@@ -16,6 +16,7 @@
           "Swashbuckle.AspNetCore.Annotations": "7.2.0",
           "Swashbuckle.AspNetCore.Filters": "8.0.2",
           "System.IdentityModel.Tokens.Jwt": "8.3.0",
+          "PDF": "1.0.0.0",
           "Sap.Data.Hana.Core.v2.1": "2.7.26.0"
         },
         "runtime": {
@@ -409,6 +410,14 @@
         }
       },
       "System.Text.Json/4.7.2": {},
+      "PDF/1.0.0.0": {
+        "runtime": {
+          "PDF.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "Sap.Data.Hana.Core.v2.1/2.7.26.0": {
         "runtime": {
           "Sap.Data.Hana.Core.v2.1.dll": {
@@ -711,6 +720,11 @@
       "sha512": "sha512-TcMd95wcrubm9nHvJEQs70rC0H/8omiSGGpU4FQ/ZA1URIqD4pjmFJh2Mfv1yH1eHgJDWTi2hMDXwTET+zOOyg==",
       "path": "system.text.json/4.7.2",
       "hashPath": "system.text.json.4.7.2.nupkg.sha512"
+    },
+    "PDF/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     },
     "Sap.Data.Hana.Core.v2.1/2.7.26.0": {
       "type": "reference",

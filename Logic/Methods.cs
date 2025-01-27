@@ -246,10 +246,13 @@ namespace APICRM.Logic
                                     T0.""E_Mail"",
                                     CASE WHEN T0.""QryGroup1"" = 'Y' THEN 'SI' ELSE 'NO' END AS ""Contado"", 
                                     CASE WHEN T0.""QryGroup2"" = 'Y' THEN 'SI' ELSE 'NO' END AS ""Credito"",
-                                    T0.""GroupNum""
+                                    T0.""GroupNum"",
+                                    T1.""PymntGroup""
+                                    
 
                                 FROM  
-                                    {DB}.OCRD T0
+                                    {DB}.OCRD T0  
+                                    INNER JOIN {DB}.OCTG T1 ON T0.""GroupNum"" = T1.""GroupNum""
 
                                 WHERE  
                                     T0.""validFor"" = 'Y'
@@ -276,6 +279,7 @@ namespace APICRM.Logic
                                 counted = reader.GetString(5),
                                 credit = reader.GetString(6),
                                 GroupNum = reader.IsDBNull(7) ? "No data" : reader.GetString(7),
+                                PymntGroup = reader.IsDBNull(8) ? "No data" : reader.GetString(8),
                             };
 
                             Lista.Add(client);

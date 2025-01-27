@@ -25,7 +25,9 @@ namespace APICRM.Models
         [JsonProperty("Crédito")]
         public string? credit { get; set; }
 
-        [JsonProperty("CondicionDePago")]
+        [JsonProperty("CodigoCondicionDePago")]
         public string? GroupNum { get; set; }
+        [JsonProperty("CondicionDePago")]
+        public string? PymntGroup { get; set; }
     }
 }
