@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\models\\conflic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:models\\conflic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\logic\\methods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:logic\\methods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\controllers\\chatbotcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -39,14 +39,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Conflic.cs",
-              "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\Conflic.cs",
-              "RelativeDocumentMoniker": "Models\\Conflic.cs",
-              "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Models\\Conflic.cs",
-              "RelativeToolTip": "Models\\Conflic.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAZAAAA",
+              "Title": "Methods.cs",
+              "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Logic\\Methods.cs",
+              "RelativeDocumentMoniker": "Logic\\Methods.cs",
+              "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Logic\\Methods.cs",
+              "RelativeToolTip": "Logic\\Methods.cs",
+              "ViewState": "AQIAAKkDAAAAAAAAAAA2wK4DAABAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T20:55:10.72Z",
+              "WhenOpened": "2025-01-28T22:55:34.341Z",
               "EditorCaption": ""
             },
             {
@@ -57,7 +57,7 @@
               "RelativeDocumentMoniker": "Controllers\\ChatBotController.cs",
               "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Controllers\\ChatBotController.cs",
               "RelativeToolTip": "Controllers\\ChatBotController.cs",
-              "ViewState": "AQIAACQBAAAAAAAAAAAAwDIBAAAhAAAA",
+              "ViewState": "AQIAACoAAAAAAAAAAAAowAIAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-23T19:51:03.708Z",
               "EditorCaption": ""
@@ -70,7 +70,7 @@
               "RelativeDocumentMoniker": "Controllers\\APIController.cs",
               "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Controllers\\APIController.cs",
               "RelativeToolTip": "Controllers\\APIController.cs",
-              "ViewState": "AQIAAI4BAAAAAAAAAAAwwJUBAABJAAAA",
+              "ViewState": "AQIAAP0AAAAAAAAAAAAwwAgAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-23T20:12:52.467Z",
               "EditorCaption": ""

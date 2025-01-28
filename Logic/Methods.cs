@@ -950,7 +950,7 @@ namespace APICRM.Logic
                 msg.From = new MailAddress(Mail);
 
                 // Aquí agregamos el destinatario
-                msg.To.Add(new MailAddress($@"abraham.jimenez@mepiel.com.mx")); //{ data.Email}
+                msg.To.Add(new MailAddress($@"{data.Email}")); //{data.Email}
 
                 #region Busqueda manual de factura
 
