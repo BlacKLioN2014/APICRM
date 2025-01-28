@@ -8,7 +8,7 @@ namespace APICRM.Models
         [JsonProperty("CodigoArticulo")]
         public string? ItemCode { get; set; }
 
-        [JsonProperty("Descripción")]
+        [JsonProperty("Descripcion")]
         public string? Dscription { get; set; }
 
         [JsonProperty("CodigoBarras")]
@@ -23,7 +23,7 @@ namespace APICRM.Models
         [JsonProperty("Descuento")]
         public string? DiscPrcnt { get; set; }
 
-        [JsonProperty("IVA")]
+        [JsonProperty("CodigoFiscal")]
         public string? TaxCode { get; set; }
 
     }

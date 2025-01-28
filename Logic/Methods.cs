@@ -12,6 +12,9 @@ using Newtonsoft.Json.Linq;
 using AutoMapper;
 using APICRM.Models.Mapper;
 using System.Runtime.CompilerServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net.Mail;
+using System.Net;
 
 namespace APICRM.Logic
 {
@@ -27,6 +30,8 @@ namespace APICRM.Logic
         private readonly string productive = string.Empty;
         private readonly string UserSAP = string.Empty;
         private readonly string PassWordSAP = string.Empty;
+        private readonly string Mail = string.Empty;
+        private readonly string Path = $@"\\172.16.21.249\b1_shf\Companies\SB1CSL\anexos\BOVEDA FACTURAS MEPIEL\";
 
         IConfiguration _config;
         private readonly IMapper _mapper;
@@ -45,7 +50,7 @@ namespace APICRM.Logic
             productive = _config.GetValue<string>("ApiSettings:Productive");
             UserSAP = _config.GetValue<string>("ApiSettings:UserSAP");
             PassWordSAP = _config.GetValue<string>("ApiSettings:PassWordSAP");
-
+            Mail = _config.GetValue<string>("ApiSettings:MailRemitente");
         }
 
         public  string generarToKen(UserLogin UserLogin)
@@ -805,5 +810,204 @@ namespace APICRM.Logic
             }
 
         }
+
+        public  async Task<string> SearchReporte(int Documento)
+        {
+            string msj = string.Empty;
+            string DBName = string.Empty;
+            DBName = (productive == "YES" ? DBYes : DBNo);
+
+            var Getdata = await GetData(Documento, DBName);
+
+            if (string.IsNullOrEmpty(Getdata.ReportID))
+            {
+                JsonContent JsonFalse =
+                JsonContent.Create
+                (
+                        new
+                        {
+                            success = false,
+                            answer = "No se ha encontrado la factura. Por favor, inténtalo de nuevo más tarde.",
+                        }
+                );
+                msj = JsonConvert.SerializeObject(JsonFalse.Value);
+                return msj;
+            }
+
+            var data = new Data()
+            {
+                DocNum = Documento,
+                CardName = Getdata.CardName,
+                Email = Getdata.Email,
+                PdfPath = Path,
+                ReportID = Getdata.ReportID,
+            };
+
+            var validacion =  await SendEmail(data);
+
+            if (validacion)
+            {
+                JsonContent jsonTrue =
+                JsonContent.Create
+                (
+                        new
+                        {
+                            success = true,
+                            answer = "La factura ha sido enviada por correo exitosamente.",
+                        }
+                );
+
+                msj = JsonConvert.SerializeObject(jsonTrue.Value);
+                return msj;
+            }
+            else
+            {
+                JsonContent JsonFalse =
+                JsonContent.Create
+                (
+                        new
+                        {
+                            success = false,
+                            answer = "No se ha encontrado la factura. Por favor, inténtalo de nuevo más tarde.",
+                        }
+                );
+                msj = JsonConvert.SerializeObject(JsonFalse.Value);
+                return msj;
+            }
+        }
+
+        public  async Task<GetData> GetData(int DocNum, string DBName)
+        {
+            var getData = new GetData();
+
+            string StrSql = string.Empty;
+
+            try
+            {
+
+                using (var Con = new HanaConnection(HanaConec))
+                {
+                    await Con.OpenAsync();
+
+                    StrSql = $@"
+                                SELECT
+	                                T0.""CardName"",
+	                                T0.""U_Sucursal"",
+	                                T1.""E_Mail"",
+                                    T2.""ReportID""
+                                FROM 
+	                                {DBName}.OINV T0
+	                                INNER JOIN {DBName}.OCRD T1 ON T0.""CardCode"" = T1.""CardCode""
+                                    LEFT JOIN {DBName}.ECM2 T2 ON T2.""SrcObjType"" = T0.""ObjType"" 
+	 	                                   AND T2.""SrcObjAbs"" = T0.""DocEntry""
+                                WHERE
+	                                T0.""DocNum"" = '{DocNum}'
+                                ";
+
+                    using (var cmd = new HanaCommand(StrSql, Con))
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            getData = new GetData()
+                            {
+                                CardName = reader.GetString(0),
+                                WhsCode = reader.GetString(1),
+                                Email = reader.GetString(2),
+                                ReportID = reader.GetString(3),
+                            };
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = "Error. Al obtener objeto GetData. " + ex.Message.ToString();
+                DateTime date = DateTime.Now;
+                string fechaFormateada = date.ToString("yyyyMMdd");
+
+                return new GetData();
+
+            }
+            return getData;
+
+        }
+
+        public async Task<bool> SendEmail(Data data)
+        {
+            string path = string.Empty;
+
+            DateTime dateTime = DateTime.Now;
+            string fechaFormateada = dateTime.ToString("yyyyMMdd");
+
+            try
+            {
+                MailMessage msg = new MailMessage();
+
+                msg.Subject = $@"Factura: {data.DocNum}";
+                msg.From = new MailAddress(Mail);
+
+                // Aquí agregamos el destinatario
+                msg.To.Add(new MailAddress($@"abraham.jimenez@mepiel.com.mx")); //{ data.Email}
+
+                #region Busqueda manual de factura
+
+                path = $@"{data.PdfPath}{data.CardName.ToUpperInvariant()}\I\{data.ReportID}.pdf";
+                data.PdfPath = path;
+
+                #endregion
+
+
+                // Adjuntar PDF
+                if (!string.IsNullOrEmpty(data.PdfPath) && File.Exists(data.PdfPath))
+                {
+                    Attachment attachment = new Attachment(data.PdfPath);
+                    msg.Attachments.Add(attachment);
+                }
+                else
+                {
+                    return false;
+                }
+
+                msg.Body = $@"
+                         <h4>Estimado/a {data.CardName}</h4>
+                        Le enviamos adjunta la factura correspondiente a su compra:
+                        <br>
+                        <br>
+                                <li> <b> N&uacutemero de Factura: </b> {data.DocNum}</li>    
+
+                        <h4>Atentamente,</h4>
+                        MEPIEL DISTRIBUIDORES ESPECIALIZADOS";
+
+                msg.IsBodyHtml = true;
+
+                using (SmtpClient client = new SmtpClient())
+                {
+                    client.EnableSsl = true;
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(Mail, "giIb3OTlMq;+");
+                    client.Host = "svgp364.serverneubox.com.mx";
+                    client.Port = 587;
+                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    client.Timeout = 100000;
+
+                    await client.SendMailAsync(msg);  // Versión async recomendada
+                }
+                return true;
+            }
+            catch (SmtpException smtpEx)
+            {
+                Console.WriteLine($"Error de SMTP: {smtpEx.Message}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                string msj = $"Error: Al enviar correo, {ex.Message}";
+                return false;
+            }
+        }
+
     }
 }

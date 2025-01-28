@@ -1,8 +1,8 @@
 ﻿using APICRM.Logic;
 using APICRM.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
-using PDF;
 
 namespace APICRM.Controllers
 {
@@ -20,7 +20,7 @@ namespace APICRM.Controllers
         [HttpGet]
         [SwaggerOperation(
         Summary = "Obtener datos de cliente",
-        Description = "Este servicio permite recuperar algunos datos de un cliente mediante la búsqueda de un correo electrónico en la base de datos de SAP. Para su correcto funcionamiento, es imprescindible disponer de un token de autenticación válido.")]
+        Description = "Este servicio permite recuperar datos de un cliente mediante la búsqueda de su correo electrónico en la base de datos de SAP. Para su correcto funcionamiento, es imprescindible contar con un token de autenticación válido.")]
         [ResponseCache(Duration = 10)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -136,7 +136,7 @@ namespace APICRM.Controllers
         [HttpGet]
         [SwaggerOperation(
         Summary = "Obtener las últimas 5 facturas de un cliente.",
-        Description = "Este servicio permite recuperar las últimas 5 facturas de un cliente mediante la búsqueda en la base de datos de SAP. Para su correcto funcionamiento, es necesario contar con un token de autenticación válido.")]
+        Description = "Este servicio permite recuperar las últimas 5 facturas de un cliente mediante una búsqueda en la base de datos de SAP. Para su funcionamiento adecuado, es necesario contar con un token de autenticación válido.")]
         [ResponseCache(Duration = 10)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -252,7 +252,7 @@ namespace APICRM.Controllers
         [HttpPost]
         [SwaggerOperation(
         Summary = "Enviar factura por correo",
-        Description = "Este servicio permite generar el documento PDF de una factura y enviarla por correo electronico. Para su correcto funcionamiento, es necesario contar con un token de autenticación válido.")]
+        Description = "Este servicio permite enviar el documento PDF de una factura por correo electrónico. Para su funcionamiento adecuado, es necesario contar con un token de autenticación válido.")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -279,15 +279,16 @@ namespace APICRM.Controllers
                     if (userLogin.User.Trim() == methods.UserApi && userLogin.Password.Trim() == methods.PasswordApi.Trim())
                     {
 
-                        var Send = await PDF.Program.CrearReporte(Factura.DocNum);
+                        var Send = await methods.SearchReporte(Factura.DocNum);
 
-                        if (2 < 1)
+                        if(Send.Contains("false"))
                         {
+                            dynamic jsonObj = JsonConvert.DeserializeObject<dynamic>(Send);
 
                             Conflic conflic = new Conflic()
                             {
                                 code = 404,
-                                Description = "No se encontraron facturas."
+                                Description = jsonObj.answer
                             };
 
                             Response<Conflic> response = new Response<Conflic>()
@@ -301,10 +302,18 @@ namespace APICRM.Controllers
                         }
                         else
                         {
-                            Response<List<LastInvoices>> response = new Response<List<LastInvoices>>()
+                            dynamic jsonObj = JsonConvert.DeserializeObject<dynamic>(Send);
+
+                            Conflic conflic = new Conflic()
+                            {
+                                code = 200,
+                                Description = jsonObj.answer
+                            };
+
+                            Response<Conflic> response = new Response<Conflic>()
                             {
                                 success = true,
-                                answer = new List<LastInvoices>()
+                                answer = conflic
                             };
 
                             return Ok(response);

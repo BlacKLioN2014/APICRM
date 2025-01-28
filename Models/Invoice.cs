@@ -13,7 +13,7 @@ namespace APICRM.Models
         [JsonProperty("Fecha")]
         public string? DocDate { get; set; }
 
-        [JsonProperty("Almacén")]
+        [JsonProperty("Almacen")]
         public string? U_Sucursal { get; set; }
 
         [JsonProperty("Paqueteria")]

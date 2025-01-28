@@ -32,7 +32,7 @@ namespace APICRM.Controllers
         ///[HttpGet("GetToken/{usuario},{contraseña}", Name = "GetToken")]
         [SwaggerOperation(
         Summary = "Obtener Token",
-        Description = "Este servicio es responsable de generar un token de autenticación utilizando las credenciales del usuario, específicamente su nombre de usuario y contraseña.")]
+        Description = "Este servicio se encarga de generar un token de autenticación a partir de las credenciales del usuario, específicamente su nombre de usuario y contraseña.")]
         [ResponseCache(Duration = 10)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -103,7 +103,7 @@ namespace APICRM.Controllers
         [HttpGet]
         [SwaggerOperation(
         Summary = "Obtener listado de clientes",
-        Description = "Este servicio se encarga de recuperar todos los clientes disponibles en la base de datos de SAP. Para su funcionamiento, es necesario contar con un token de autenticación.")]
+        Description = "Este servicio se encarga de recuperar todos los clientes disponibles en la base de datos de SAP. Para su funcionamiento, se requiere un token de autenticación válido.")]
         [ResponseCache(Duration = 10)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -247,7 +247,7 @@ namespace APICRM.Controllers
         [HttpGet]
         [SwaggerOperation(
         Summary = "Obtener datos de factura",
-        Description = "Este servicio permite recuperar algunos datos de una factura mediante la búsqueda por folio en la base de datos de SAP. Para su correcto funcionamiento, es imprescindible disponer de un token de autenticación válido.")]
+        Description = "Este servicio permite recuperar datos de una factura mediante la búsqueda por folio en la base de datos de SAP. Para su funcionamiento adecuado, es imprescindible contar con un token de autenticación válido.")]
         [ResponseCache(Duration = 10)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -396,7 +396,7 @@ namespace APICRM.Controllers
         [HttpPost]
         [SwaggerOperation(
         Summary ="Generar solicitud de devolucion en SAP",
-        Description = "Este servicio facilita la generación de un documento de solicitud de devolución en SAP. Para su uso, es indispensable contar con un token de autenticación válido.")]
+        Description = "Este servicio facilita la creación de un documento de solicitud de devolución en SAP. Para su funcionamiento, es indispensable contar con un token de autenticación válido.")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

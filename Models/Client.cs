@@ -5,7 +5,7 @@ namespace APICRM.Models
     public class Client
     {
 
-        [JsonProperty("CodigoSAP")]
+        [JsonProperty("CodigoCliente")]
         public string? CardCode { get; set; }
 
         [JsonProperty("Nombre")]
@@ -14,7 +14,7 @@ namespace APICRM.Models
         [JsonProperty("NombreExtranjero")]
         public string? CardFName { get; set; }
 
-        [JsonProperty("Teléfono")]
+        [JsonProperty("Telefono")]
         public string? Phone1 { get; set; }
 
         [JsonProperty("Correo")]
