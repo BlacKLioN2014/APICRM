@@ -172,7 +172,7 @@ namespace APICRM.Controllers
                             Conflic conflic = new Conflic()
                             {
                                 code = 404,
-                                Description = "No se encontraron facturas."
+                                Description = "No se han encontrado facturas"
                             };
 
                             Response<Conflic> response = new Response<Conflic>()
@@ -372,5 +372,123 @@ namespace APICRM.Controllers
             }
 
         }
+
+        [HttpPost]
+        [SwaggerOperation(
+        Summary = "Obtener información detallada de una partida",
+        Description = "Este servicio permite acceder a la información de una partida de factura a través de una búsqueda en la base de datos de SAP. Para su correcto funcionamiento, es imprescindible disponer de un token de autenticación válido.")]
+        [ResponseCache(Duration = 10)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Route("LineInfo")]
+        public async Task<IActionResult> GetLineInfo([FromBody] InfoLine info)
+        {
+            string Authorization = Request.Headers["Authorization"];
+
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (!string.IsNullOrEmpty(Authorization))
+                {
+                    Authorization = Authorization.Replace("Bearer ", "");
+
+                    UserLogin userLogin = methods.desifrarToken(Authorization.Trim());
+
+                    if (userLogin.User.Trim() == methods.UserApi && userLogin.Password.Trim() == methods.PasswordApi.Trim())
+                    {
+
+                        var foline = await methods.LineInfo(info.DocNum, info.ItemCode);
+
+                        if (foline.Count < 1)
+                        {
+
+                            Conflic conflic = new Conflic()
+                            {
+                                code = 404,
+                                Description = @$"La búsqueda en el documento {info.DocNum} no arrojó resultados para el ítem {info.ItemCode}."
+                            };
+
+                            Response<Conflic> response = new Response<Conflic>()
+                            {
+                                success = false,
+                                answer = conflic
+                            };
+
+                            return NotFound(response);
+
+                        }
+                        else
+                        {
+                            Response<List<ItemInfo>> response = new Response<List<ItemInfo>>()
+                            {
+                                success = true,
+                                answer = foline
+                            };
+
+                            return Ok(response);
+
+                        }
+                    }
+                    else
+                    {
+                        Conflic conflic = new Conflic()
+                        {
+                            code = 400,
+                            Description = "Token no válido. Por favor, revíselo e inténtelo de nuevo."
+                        };
+
+                        Response<Conflic> response = new Response<Conflic>()
+                        {
+                            success = false,
+                            answer = conflic
+                        };
+
+                        return BadRequest(response);
+                    }
+                }
+                else
+                {
+                    Conflic conflic = new Conflic()
+                    {
+                        code = 400,
+                        Description = "Es necesario incluir un token válido para continuar."
+                    };
+
+                    Response<Conflic> response = new Response<Conflic>()
+                    {
+                        success = false,
+                        answer = conflic
+                    };
+
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception x)
+            {
+                Conflic conflic = new Conflic()
+                {
+                    code = 500,
+                    Description = "Ha ocurrido un error interno. Por favor, inténtelo de nuevo más tarde."
+                };
+
+                Response<Conflic> response = new Response<Conflic>()
+                {
+                    success = false,
+                    answer = conflic
+                };
+
+                return StatusCode(500, response);
+            }
+
+        }
+
+
     }
 }
