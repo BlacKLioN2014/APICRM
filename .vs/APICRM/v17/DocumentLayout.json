@@ -9,10 +9,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\logic\\methods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:logic\\methods.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|c:\\users\\abraham.jimenez\\desktop\\proyectos\\apicrm\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{759B8030-49F2-4C47-8FC4-10027082DD74}|APICRM.csproj|solutionrelative:controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -44,7 +40,7 @@
               "RelativeDocumentMoniker": "Logic\\Methods.cs",
               "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Logic\\Methods.cs",
               "RelativeToolTip": "Logic\\Methods.cs",
-              "ViewState": "AQIAAHMBAAAAAAAAAAAmwPQDAABPAAAA",
+              "ViewState": "AQIAADUBAAAAAAAAAAAzwK8DAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-28T22:55:34.341Z",
               "EditorCaption": ""
@@ -57,22 +53,9 @@
               "RelativeDocumentMoniker": "Controllers\\ChatBotController.cs",
               "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Controllers\\ChatBotController.cs",
               "RelativeToolTip": "Controllers\\ChatBotController.cs",
-              "ViewState": "AQIAAPwAAAAAAAAAAAAwwOsBAAAAAAAA",
+              "ViewState": "AQIAAHsBAAAAAAAAAAAAAO4BAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-23T19:51:03.708Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "APIController.cs",
-              "DocumentMoniker": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Controllers\\APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\APIController.cs",
-              "ToolTip": "C:\\Users\\abraham.jimenez\\Desktop\\Proyectos\\APICRM\\Controllers\\APIController.cs",
-              "RelativeToolTip": "Controllers\\APIController.cs",
-              "ViewState": "AQIAAPoAAAAAAAAAAAAwwAwAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-23T20:12:52.467Z",
               "EditorCaption": ""
             }
           ]

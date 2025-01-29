@@ -44,7 +44,7 @@ namespace APICRM.Models
                     TaxCode = "IVAV16",
                     UnitPrice = 100,
                     ReturnReason = 5,
-                    ReturnAction = 1
+                    U_MotCancel = "5"
                 }
             }
             };

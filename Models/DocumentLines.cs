@@ -31,9 +31,8 @@ namespace APICRM.Models
         [JsonProperty("MotivoIncidencia")]
         public int ReturnReason { get; set; }
 
-        [Required]
-        [JsonProperty("FlujoOAccion")]
-        public int ReturnAction { get; set; }
+        [JsonProperty("MotivoSeguimiento")]
+        public string? U_MotCancel { get; set; }
 
 
     }

@@ -565,6 +565,11 @@ namespace APICRM.Logic
                 Request.DocumentReferences[0].RefObjType = "rot_SalesInvoice";
                 Request.DocumentReferences[0].RefDocEntr = query.DocEntry;
 
+                foreach(var a in Request.DocumentLines)
+                {
+                    a.U_MotCancel = Convert.ToString(a.ReturnReason);
+                }
+
                 var returnRequest = await ReturnRequest(Request, Session);
                 return returnRequest;
 
@@ -951,7 +956,7 @@ namespace APICRM.Logic
                 msg.From = new MailAddress(Mail);
 
                 // Aquí agregamos el destinatario
-                msg.To.Add(new MailAddress($@"{data.Email}")); //{data.Email}
+                msg.To.Add(new MailAddress($@"abraham.jimenez@mepiel.com.mx; cesar@ptree.com.mx")); //{data.Email}
 
                 #region Busqueda manual de factura
 

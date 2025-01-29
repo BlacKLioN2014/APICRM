@@ -24,8 +24,7 @@ namespace APICRM.Models.Mapper
         [Required]
         public int ReturnReason { get; set; }
 
-        [Required]
-        public int ReturnAction { get; set; }
+        public string? U_MotCancel { get; set; }
 
 
     }
