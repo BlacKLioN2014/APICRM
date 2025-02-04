@@ -32,7 +32,9 @@ namespace APICRM.Models
         [JsonProperty("Descuento")]
         public float DiscPrcnt { get; set; }
 
-
+        [Required]
+        [JsonProperty("Descripcion")]
+        public string Dscription { get; set; }
 
     }
 }

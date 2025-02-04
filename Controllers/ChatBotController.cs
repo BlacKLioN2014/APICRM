@@ -404,7 +404,7 @@ namespace APICRM.Controllers
                     if (userLogin.User.Trim() == methods.UserApi && userLogin.Password.Trim() == methods.PasswordApi.Trim())
                     {
 
-                        var foline = await methods.LineInfo(info.DocNum, info.ItemCode);
+                        var foline = await methods.LineInfo(info.DocNum, info.ItemCodes);
 
                         if (foline.Count < 1)
                         {
@@ -412,7 +412,7 @@ namespace APICRM.Controllers
                             Conflic conflic = new Conflic()
                             {
                                 code = 404,
-                                Description = @$"La búsqueda en el documento {info.DocNum} no arrojó resultados para el ítem {info.ItemCode}."
+                                Description = @$"La búsqueda en el documento {info.DocNum} no arrojó resultados para la lista de ítems {info.ItemCodes}."
                             };
 
                             Response<Conflic> response = new Response<Conflic>()
@@ -426,7 +426,7 @@ namespace APICRM.Controllers
                         }
                         else
                         {
-                            Response<List<ItemInfo>> response = new Response<List<ItemInfo>>()
+                            Response<List<Info>> response = new Response<List<Info>>()
                             {
                                 success = true,
                                 answer = foline

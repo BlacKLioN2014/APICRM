@@ -497,7 +497,7 @@ namespace APICRM.Logic
                             {
                                 ItemCode = reader.GetString(0),
                                 Dscription = reader.GetString(1),
-                                CodeBars = reader.GetString(1),
+                                CodeBars = reader.GetString(2),
                                 Quantity = reader.GetString(3).Replace(".000000", ""),
                                 PriceBefDi = reader.GetString(4).Replace("0000", ""),
                                 DiscPrcnt = reader.GetString(5).Replace("0000", ""),
@@ -1017,8 +1017,9 @@ namespace APICRM.Logic
             }
         }
 
-        public async Task<List<ItemInfo>> LineInfo(int DocNum, string ItemCode)
+        public async Task<List<Info>> LineInfo(int DocNum, List<string> ItemCodes)
         {
+            List<Info> list = new List<Info>();
             var infoList = new List<ItemInfo>();
             string StrSql = string.Empty;
 
@@ -1031,7 +1032,10 @@ namespace APICRM.Logic
                 {
                     await Con.OpenAsync();
 
-                    StrSql = $@"
+                    foreach (var item in ItemCodes)
+                    {
+
+                        StrSql = $@"
                                 SELECT 
 	                                T0.""DocNum"", 
 	                                T1.""ItemCode"",
@@ -1039,37 +1043,52 @@ namespace APICRM.Logic
 	                                T1.""PriceBefDi"",
 	                                T1.""TaxCode"",
 	                                T2.""BatchNum"",
-	                                T1.""DiscPrcnt""
+	                                T1.""DiscPrcnt"",
+                                    T1.""Dscription""
                                 FROM 
 	                                {DBName}.OINV T0
 	                                INNER JOIN {DBName}.INV1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" 
 	                                INNER JOIN {DBName}.IBT1  T2 ON T1.""DocEntry"" = T2.""BaseEntry"" AND T1.""ItemCode"" = T2.""ItemCode"" AND T1.""LineNum"" = T2.""BaseLinNum""
                                 WHERE 
-	                                T0.""DocNum"" = '{DocNum}' AND  T1.""ItemCode"" = '{ItemCode}'
+	                                T0.""DocNum"" = '{DocNum}' AND  T1.""ItemCode"" = '{item}'
                                 ORDER BY 
 	                                T1.""LineNum"" ASC 
                                 ";
 
-                    using (var cmd = new HanaCommand(StrSql, Con))
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-
-                        while (await reader.ReadAsync())
+                        using (var cmd = new HanaCommand(StrSql, Con))
+                        using (var reader = await cmd.ExecuteReaderAsync())
                         {
-                            var info = new ItemInfo()
+
+                            while (await reader.ReadAsync())
                             {
-                                DocNum = Convert.ToInt32(reader.GetString(0)),
-                                ItemCode = reader.GetString(1),
-                                Quantity = Convert.ToInt32(reader.GetString(2).Replace(".000000","")),
-                                PriceBefdi = float.Parse(reader.GetString(3).Replace("0000","")),
-                                TaxCode = reader.GetString(4),
-                                BatchNum = reader.GetString(5),
-                                DiscPrcnt = float.Parse(reader.GetString(6).Replace("0000",""))
+                                var info = new ItemInfo()
+                                {
+                                    DocNum = Convert.ToInt32(reader.GetString(0)),
+                                    ItemCode = reader.GetString(1),
+                                    Quantity = Convert.ToInt32(reader.GetString(2).Replace(".000000", "")),
+                                    PriceBefdi = float.Parse(reader.GetString(3).Replace("0000", "")),
+                                    TaxCode = reader.GetString(4),
+                                    BatchNum = reader.GetString(5),
+                                    DiscPrcnt = float.Parse(reader.GetString(6).Replace("0000", "")),
+                                    Dscription = reader.GetString(7),
+                                };
+
+                                infoList.Add(info);
+
+                                
+                            }
+
+                            var GetInfo = new Info()
+                            {
+                                InfoItemCode = infoList,
                             };
 
-                            infoList.Add(info);
+                            infoList = new List<ItemInfo>();
+
+                            list.Add(GetInfo);
                         }
                     }
+
                 }
             }
             catch (Exception ex)
@@ -1077,9 +1096,9 @@ namespace APICRM.Logic
                 string error = "Error. Al obtener objeto Info de item. " + ex.Message.ToString();
                 DateTime date = DateTime.Now;
                 string fechaFormateada = date.ToString("yyyyMMdd");
-                return new List<ItemInfo>();
+                return new List<Info>();
             }
-            return infoList;
+            return list;
 
         }
     }

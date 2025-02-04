@@ -11,7 +11,7 @@ namespace APICRM.Models
         public int DocNum { get; set; }
 
         [Required(ErrorMessage = "El campo CodigoArticulo es obligatorio.")]
-        [JsonProperty("CodigoArticulo")]
-        public string ItemCode { get; set; }
+        [JsonProperty("CodigosDeArticulo")]
+        public List<string> ItemCodes { get; set; }
     }
 }
