@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("APICRM")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3f8d2c7ec6a2407d9673d323443daceafc8149e0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c7cd5dad31bbb21dff7fe9da4cc8a910d4539fcd")]
 [assembly: System.Reflection.AssemblyProductAttribute("APICRM")]
 [assembly: System.Reflection.AssemblyTitleAttribute("APICRM")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

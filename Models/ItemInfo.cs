@@ -15,11 +15,11 @@ namespace APICRM.Models
 
         [Required]
         [JsonProperty("Cantidad")]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         [Required]
         [JsonProperty("Precio")]
-        public float PriceBefdi { get; set; }
+        public decimal PriceBefdi { get; set; }
 
         [Required]
         [JsonProperty("CodigoFiscal")]
@@ -30,7 +30,7 @@ namespace APICRM.Models
         public string BatchNum { get; set; }
 
         [JsonProperty("Descuento")]
-        public float DiscPrcnt { get; set; }
+        public decimal DiscPrcnt { get; set; }
 
         [Required]
         [JsonProperty("Descripcion")]

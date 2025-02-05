@@ -8,10 +8,10 @@ namespace APICRM.Models
         [Required(ErrorMessage = "El campo Folio es obligatorio.")]
         [Range(1, int.MaxValue, ErrorMessage = "El valor debe ser un folio de factura.")]
         [JsonProperty("Folio")]
-        public int DocNum { get; set; }
+        public string DocNum { get; set; }
 
         [Required(ErrorMessage = "El campo CodigoArticulo es obligatorio.")]
         [JsonProperty("CodigosDeArticulo")]
-        public List<string> ItemCodes { get; set; }
+        public string ItemCodes { get; set; }
     }
 }

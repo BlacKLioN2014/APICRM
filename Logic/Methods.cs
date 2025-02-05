@@ -1017,11 +1017,22 @@ namespace APICRM.Logic
             }
         }
 
-        public async Task<List<Info>> LineInfo(int DocNum, List<string> ItemCodes)
+        public async Task<List<ItemInfo>> LineInfo(string DocNum, string ItemCodes)
         {
-            List<Info> list = new List<Info>();
+            //List<Info> list = new List<Info>();
             var infoList = new List<ItemInfo>();
             string StrSql = string.Empty;
+
+            //string[] codigos = ItemCodes.Trim('[', ']').Split(',');
+
+            // Eliminar los corchetes y luego separar por coma
+            string[] codigos = ItemCodes.Trim('[', ']').Split(',');
+
+            // Limpiar los espacios extra alrededor de cada código
+            var codigosLimpiados = codigos.Select(codigo => codigo.Trim()).ToArray();
+
+            // Crear la cadena de consulta en formato adecuado para SQL IN
+            string consultaIn = $"IN ('{string.Join("', '", codigosLimpiados)}')";
 
             var DBName = (productive == "YES" ? DBYes : DBNo);
 
@@ -1032,8 +1043,8 @@ namespace APICRM.Logic
                 {
                     await Con.OpenAsync();
 
-                    foreach (var item in ItemCodes)
-                    {
+                    //foreach (var item in codigos)
+                    //{
 
                         StrSql = $@"
                                 SELECT 
@@ -1050,7 +1061,7 @@ namespace APICRM.Logic
 	                                INNER JOIN {DBName}.INV1 T1 ON T0.""DocEntry"" = T1.""DocEntry"" 
 	                                INNER JOIN {DBName}.IBT1  T2 ON T1.""DocEntry"" = T2.""BaseEntry"" AND T1.""ItemCode"" = T2.""ItemCode"" AND T1.""LineNum"" = T2.""BaseLinNum""
                                 WHERE 
-	                                T0.""DocNum"" = '{DocNum}' AND  T1.""ItemCode"" = '{item}'
+	                                T0.""DocNum"" = '{DocNum}' AND  T1.""ItemCode"" {consultaIn}
                                 ORDER BY 
 	                                T1.""LineNum"" ASC 
                                 ";
@@ -1065,11 +1076,11 @@ namespace APICRM.Logic
                                 {
                                     DocNum = Convert.ToInt32(reader.GetString(0)),
                                     ItemCode = reader.GetString(1),
-                                    Quantity = Convert.ToInt32(reader.GetString(2).Replace(".000000", "")),
-                                    PriceBefdi = float.Parse(reader.GetString(3).Replace("0000", "")),
+                                    Quantity = reader.GetDecimal(2),  
+                                    PriceBefdi = reader.GetDecimal(3),
                                     TaxCode = reader.GetString(4),
                                     BatchNum = reader.GetString(5),
-                                    DiscPrcnt = float.Parse(reader.GetString(6).Replace("0000", "")),
+                                    DiscPrcnt = reader.GetDecimal(6),
                                     Dscription = reader.GetString(7),
                                 };
 
@@ -1078,16 +1089,16 @@ namespace APICRM.Logic
                                 
                             }
 
-                            var GetInfo = new Info()
-                            {
-                                InfoItemCode = infoList,
-                            };
+                            //var GetInfo = new Info()
+                            //{
+                            //    InfoItemCode = infoList,
+                            //};
 
-                            infoList = new List<ItemInfo>();
+                            //infoList = new List<ItemInfo>();
 
-                            list.Add(GetInfo);
+                            //list.Add(GetInfo);
                         }
-                    }
+                    //}
 
                 }
             }
@@ -1096,10 +1107,11 @@ namespace APICRM.Logic
                 string error = "Error. Al obtener objeto Info de item. " + ex.Message.ToString();
                 DateTime date = DateTime.Now;
                 string fechaFormateada = date.ToString("yyyyMMdd");
-                return new List<Info>();
+                return new List<ItemInfo>();
             }
-            return list;
+            return infoList;
 
         }
+
     }
 }

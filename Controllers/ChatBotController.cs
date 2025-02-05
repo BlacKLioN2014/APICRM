@@ -426,7 +426,7 @@ namespace APICRM.Controllers
                         }
                         else
                         {
-                            Response<List<Info>> response = new Response<List<Info>>()
+                            Response<List<ItemInfo>> response = new Response<List<ItemInfo>>()
                             {
                                 success = true,
                                 answer = foline
