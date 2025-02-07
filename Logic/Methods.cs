@@ -498,9 +498,9 @@ namespace APICRM.Logic
                                 ItemCode = reader.GetString(0),
                                 Dscription = reader.GetString(1),
                                 CodeBars = reader.GetString(2),
-                                Quantity = reader.GetString(3).Replace(".000000", ""),
-                                PriceBefDi = reader.GetString(4).Replace("0000", ""),
-                                DiscPrcnt = reader.GetString(5).Replace("0000", ""),
+                                Quantity = Convert.ToInt32( reader.GetString(3).Replace(".000000", "")),
+                                PriceBefDi = reader.GetDecimal(4),
+                                DiscPrcnt = reader.GetDecimal(5),
                                 TaxCode = reader.GetString(6),
                             };
 
@@ -1076,7 +1076,7 @@ namespace APICRM.Logic
                                 {
                                     DocNum = Convert.ToInt32(reader.GetString(0)),
                                     ItemCode = reader.GetString(1),
-                                    Quantity = reader.GetDecimal(2),  
+                                    Quantity = Convert.ToInt32(reader.GetString(2).Replace(".000000","")),
                                     PriceBefdi = reader.GetDecimal(3),
                                     TaxCode = reader.GetString(4),
                                     BatchNum = reader.GetString(5),

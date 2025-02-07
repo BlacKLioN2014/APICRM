@@ -15,7 +15,7 @@ namespace APICRM.Models
 
         [Required]
         [JsonProperty("Descuento")]
-        public int DiscountPercent { get; set; }
+        public decimal DiscountPercent { get; set; }
 
         [JsonProperty("CodigoDeBarras")]
         public string? BarCode { get; set; }
@@ -25,7 +25,7 @@ namespace APICRM.Models
 
         [Required]
         [JsonProperty("Precio")]
-        public int UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
 
         [Required]
         [JsonProperty("MotivoIncidencia")]

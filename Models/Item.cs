@@ -15,13 +15,13 @@ namespace APICRM.Models
         public string? CodeBars { get; set; }
 
         [JsonProperty("Cantidad")]
-        public string? Quantity { get; set; }
+        public int Quantity { get; set; }
 
         [JsonProperty("Precio")]
-        public string? PriceBefDi { get; set; }
+        public decimal PriceBefDi { get; set; }
 
         [JsonProperty("Descuento")]
-        public string? DiscPrcnt { get; set; }
+        public decimal DiscPrcnt { get; set; }
 
         [JsonProperty("CodigoFiscal")]
         public string? TaxCode { get; set; }

@@ -15,7 +15,7 @@ namespace APICRM.Models
 
         [Required]
         [JsonProperty("Cantidad")]
-        public decimal Quantity { get; set; }
+        public int Quantity { get; set; }
 
         [Required]
         [JsonProperty("Precio")]
